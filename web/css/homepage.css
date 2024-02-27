@@ -1,0 +1,581 @@
+/*====================================================HOME PAGE==========================================*/
+/* SLIDER*/
+
+.slider .slider-text p {
+    margin-top: 20px; 
+    font-size: 30px;
+    color: #fff;
+    font-weight: 600;
+}
+
+
+
+.slider .slider-text h3 {
+    font-size: 40px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.black-font{
+   color:#000 !important ;  
+}
+
+
+
+
+.categories {
+    position: relative;
+    overflow: hidden;
+}
+
+.categories .categories_item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.categories .categories_text {
+    position: absolute;
+    top: 70% ; 
+    left: 30px;
+}
+
+
+
+
+.categories .categories_text h4 {
+    color: #000;
+    font-weight: 700;
+}
+
+.categories .categories_text p {
+    margin-bottom: 10px;
+}
+
+.categories .categories_text a {
+    font-size: 16px;
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 600;
+    position: relative;
+    padding: 0 0 3px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.categories .categories_text a:after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #ff7200;
+    content: '';
+}
+
+.categories_large_item .categories_text p {
+    color: #fff;
+    font-size: 30px;
+    margin-bottom: 15px;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+}
+.categories_large_item .categories_text h1{
+    font-size: 40px;
+    color: #0235f8;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.categories_large_item .categories_text span {
+    font-size:40px;
+}
+.categories_large_item .categories_text a {
+    color: #fff ;
+}
+
+.categories .categories_text h1 {
+    color: #fbff04 ; 
+    margin-bottom: 5px;
+}
+
+.categories_large_item .categories_text {
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    max-width: 300px;
+}
+
+/* product  */
+
+.product {
+    padding-top: 60px;
+    padding-bottom: 50px;
+}
+
+.product .section-title {
+    margin-bottom: 45px;
+}
+
+.product .section-title h4 {
+    columns: #000;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+}
+
+.product .section-title h4:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 70px;
+    background-color: #ca1515;
+}
+
+.spad {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.product_item {
+    margin-bottom: 35px;
+}
+
+.product_item_pic {
+    height: 360px;
+    position: relative;
+    overflow: hidden;
+}
+
+.product_item_pic .label {
+    position: absolute;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 500;
+    display: inline-block;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    left: 10px;
+    top: 10px;
+}
+
+.product_item_pic img {
+    height : 360px;
+    object-fit: cover ;
+}
+
+.product-img{
+    height : 360px;
+    object-fit: cover ;
+}
+.product_item_pic .label.new {
+    background-color: #ff7200;
+}
+
+.product_item_text {
+    text-align: center;
+    padding-top: 22px;
+}
+
+.product_item_text h6 a {
+    font-size: 16px;
+    color: #000;
+}
+
+.product_item_text .rating {
+    line-height: 18px;
+    margin-bottom: 5px;
+}
+
+.product_item_text .rating i {
+    font-size: 10px;
+    color: #e3c01c;
+    margin-right: -4px;
+}
+
+.product_item_text .rating i:last-child {
+    margin-right: 0;
+}
+
+.product_item_text .product_price {
+    color: #000;
+    font-weight: 600;
+}
+
+.product_hover {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 30px;
+    text-align: center;
+}
+
+.product_hover li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    top: 100px;
+    opacity: 0;
+}
+
+.product_hover li:last-child {
+    margin-right: 0;
+}
+
+.product_hover li:hover a {
+    background-color: #ff7200;
+}
+
+.product_hover li:hover a i {
+    color: #fff;
+    transform: rotate(360deg);
+}
+
+.product_hover li a {
+    font-size: 18px;
+    color: #000;
+    display: block;
+    width: 45px;
+    height: 45px;
+    background-color: #fff;
+    line-height: 45px;
+    border-radius: 50px;
+    box-shadow: 0 0 25px rgba(24, 24, 24, 0.4);
+    transition: all 0.5s;
+}
+
+.product_hover li a i {
+    position: relative;
+    display: inline-block;
+    transform: rotate(0);
+    transition: all 0.3s;
+}
+
+.product_item:hover .product_hover li {
+    opacity: 1;
+    top: 0;
+}
+
+.product_hover li:nth-child(1) {
+    transition: all 0.4s ease 0.1s;
+}
+
+.product_hover li:nth-child(2) {
+    transition: all 0.4s ease 0.15s;
+}
+
+.product_hover li:nth-child(3) {
+    transition: all 0.4s ease 0.2s;
+}
+
+.product_hover li:nth-child(4) {
+    transition: all 0.4s ease 0.25s;
+}
+
+.product_item_pic .label.stockout {
+    background-color: #111111;
+}
+
+.product_item_pic .label.sale {
+    background-color: #ff7200;
+}
+
+.product_item_text .product_price span {
+    font-size: 14px;
+    color: #b1b0b0;
+    text-decoration: line-through;
+    margin-left: 4px;
+}
+
+
+/* Discount */
+.discount-bg {
+    background-color: #c9002e;
+    min-height: 300px;
+    position: relative;
+}
+
+.discount-text span {
+    position: absolute;
+    top:20% ; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: #000;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.discount-text h2{
+    font-size: 50px;
+    font-weight: 600;
+    letter-spacing: 10px;
+    color: #fff;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.discount-text h3 {
+    color: #fff;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+}
+.discount-text a {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    text-decoration: none;
+    color: #ff7200 ; 
+    cursor: pointer;
+    transition: .5s linear;
+}
+.discount-text a:hover{
+    color: #fff;
+}
+
+
+/* Brands */
+
+.ds-flex{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.col img {
+    width: 180px;
+    cursor: pointer;
+
+
+}
+.col img:hover {
+    filter: grayscale(0);
+}
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 28, 2021, 4:27:53 PM
+    Author     : Admin
+*/
+.card-custom {
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+    border: 0;
+    border-radius: 1rem
+}
+
+.card-img,
+.card-img-top {
+    border-top-left-radius: calc(1rem - 1px);
+    border-top-right-radius: calc(1rem - 1px)
+}
+
+.card-custom h5 {
+    overflow: hidden;
+    height: 56px;
+    font-weight: 900;
+    font-size: 1rem
+}
+
+.card-img-top {
+    width: 100%;
+    max-height: 180px;
+    object-fit: contain;
+    padding: 30px
+}
+
+.card-custom h2 {
+    font-size: 1rem
+}
+
+.card-custom:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06)
+}
+
+.label-top {
+    position: absolute;
+    background-color: #20bf6b;
+    color: #fff;
+    top: 8px;
+    right: 8px;
+    padding: 5px 10px 5px 10px;
+    font-size: .7rem;
+    font-weight: 600;
+    border-radius: 3px;
+    text-transform: uppercase
+}
+
+.top-right {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 900;
+    background: #ff5722;
+    line-height: 90px;
+    text-align: center;
+    color: white
+}
+
+.top-right span {
+    display: inline-block;
+    vertical-align: middle
+}
+
+
+
+.over-bg {
+    background: rgba(53, 53, 53, 0.85);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(0.0px);
+    -webkit-backdrop-filter: blur(0.0px);
+    border-radius: 10px
+}
+
+.btn-custom {
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 5px 50px 5px 50px
+}
+
+.box .btn-custom {
+    font-size: 1.5rem
+}
+
+.btn-warning-custom {
+    background: none #fa8231;
+    color: #ffffff;
+    fill: #ffffff;
+    border: none;
+    text-decoration: none;
+    outline: 0;
+    box-shadow: -1px 6px 19px rgba(247, 129, 10, 0.25);
+    border-radius: 100px
+}
+
+.btn-warning-custom:hover {
+    background: none #fd9644;
+    color: #ffffff;
+    box-shadow: -1px 6px 13px rgba(255, 150, 43, 0.35)
+}
+
+.bg-success-custom {
+    font-size: 1rem;
+    background-color: #f7810a !important
+}
+
+.bg-danger-custom {
+    font-size: 1rem
+}
+
+.price-hp {
+    font-size: 1rem;
+    font-weight: 600;
+    color: darkgray
+}
+
+.amz-hp {
+    font-size: .7rem;
+    font-weight: 600;
+    color: darkgray
+}
+
+.fa-question-circle:before {
+    color: darkgray
+}
+
+.fa-plus:before {
+    color: darkgray
+}
+
+.box {
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 6px 10px rgb(0 0 0 / 8%), 0 0 6px rgb(0 0 0 / 5%);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12)
+}
+
+.box-img {
+    max-width: 300px
+}
+
+.thumb-sec {
+    max-width: 300px
+}
+
+
+.inner-gallery {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 1px;
+    display: inline-block;
+    overflow: hidden;
+    -o-object-fit: cover;
+    object-fit: cover
+}
+
+
+.disclaimer {
+    font-size: .9rem;
+    color: darkgray
+}
+ul{
+    padding-left: 0;
+}
+.related h3 {
+    font-weight: 900
+}
+.content-width
+{
+    max-width: 1440px;
+    width: 100%;
+}
+.accordion-body
+{
+    padding: 3px;
+}
+.mh-1000
+{
+    min-height: 1000px;
+}
+.btn-primary-custom{
+    background: none #3867d6;
+    color: #ffffff;
+    fill: #ffffff;
+    border: none;
+    text-decoration: none;
+}
+.btn-primary-custom:hover{
+    background: none #4b7bec;
+    color: #ffffff;
+}
+
+
+
+
+
+/*==============================================END HOME PAGE ===================================*/

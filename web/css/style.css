@@ -1,0 +1,173 @@
+/*---------------------- GOOGLE FONTS ----------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+/*---------------------- VARIABLES CSS ----------------------*/
+:root {
+    /*  --header-height: 120px ;*/
+
+    /*-------------------- Colors --------------------*/
+    /*
+      --first-color: ;
+      --first-color-second: ;
+      --first-color-alt: ;
+      --first-color-lighter: ;
+      --title-color: ;
+      --text-color: ;
+      --text-color-light: ;
+      --input-color: ;
+      --body-color: ;
+      --container-color: ;*/
+
+    /*-------------------- Font and typography --------------------*/
+    --body-font: font-family 'Poppins', sans-serif; ;
+
+    /*   font size  
+      --big-font-size: ;
+      --h1-font-size: ;
+      --h2-font-size: ;
+      --h3-font-size: ;
+      --normal-font-size: ;
+      --small-font-size: ;
+      --smaller-font-size: ;*/
+
+    /*-------------------- Font weight --------------------*/
+    --font-medium: ;
+    --font-semi-bold: ;
+
+
+
+    /*-------------------- z index --------------------*/
+    --z-tooltip: 1 ;
+    --z-fixed: 2;
+    --z-modal: 99 ;
+}
+
+/*Font size for large devices*/ 
+@media screen and (min-width: 968px) {
+    :root {
+        /*    --big-font-size: ;
+            --h1-font-size: ;
+            --h2-font-size: ;
+            --h3-font-size: ;
+            --normal-font-size: ;
+            --small-font-size: ;
+            --smaller-font-size: ;*/
+    }
+}
+
+
+/*-------------------- BASE --------------------*/
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html{
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+body{
+    margin: 0;
+    width: 100%;
+    z-index: 0;
+    padding-top: 80px;
+    font-family: 'Poppins',sans-serif;
+    overflow-x: hidden;
+}
+
+.title {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+canvas{
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.title h4 {
+    color: #000;
+    font-size: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    position: relative;
+}
+
+.title h4:after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background-color: #ff7200;
+    content: '';
+}
+/*-------------------- REUSEABLE------------------*/
+.sticky {
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    z-index: 2000;
+}
+.sticky-notification {
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 2001;
+}
+/*-------------------- NAVBAR --------------------*/
+.nav-item
+{
+    margin-left: 10px;
+}
+.logo img
+{
+    height: 75px;
+}
+.navbar
+{
+    font-size: 20px;
+}
+.navbar .fas
+{
+    font-size: 130%;
+}
+.searchbar
+{
+    margin-top: 10px;
+    width: 100%;
+}
+#navbar1{
+    height: 90px;
+}
+#navbar2{
+    height: 55px;
+}
+/*-------------------- TOP BTN --------------------*/
+#myTBTN {
+  width:57px;
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: #eb3b5a; /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+#myTBTN:hover {
+  background-color: #a5b1c2; /* Add a dark-grey background on hover */
+}
+

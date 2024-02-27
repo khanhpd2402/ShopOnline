@@ -1,0 +1,46 @@
+
+/** ADD YOUR AWESOME CODES HERE **/
+.centered-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 24px;
+}
+fa-flip-horizontal {
+    transform: scaleX(-1);
+}
+.title-all {
+    background-color: #00483d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 43px; /* Độ cao */
+    text-align: center;
+}
+
+.title-all h1 {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Màu chữ trắng */
+    text-transform: uppercase; /* Chữ in hoa */
+    font-size: 22px; /* Kích thước chữ nhỏ hơn */
+}
+
+.product-heading {
+    background-color: #00483d;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+}
+.product-heading h1 {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Màu chữ trắng */
+    text-transform: uppercase; /* Chữ in hoa */
+    font-size: 22px; /* Kích thước chữ nhỏ hơn */
+}
+
+  hr {
+        border: none;
+        border-top: 2px solid #000;
+        margin: 20px 0;
+    }

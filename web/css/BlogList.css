@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 10, 2021, 9:31:43 AM
+    Author     : Ottelia
+*/
+
+
+.img-big-wrap img{
+    width: 100% ;
+    height: auto ;
+}
+
+
+a
+{ 
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.row .img-big-wrap{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
