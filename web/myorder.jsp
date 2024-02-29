@@ -84,6 +84,18 @@
 
     <body class="animsition">
         <%@include file="model/header.jsp" %>
+        <!-- Start All Title Box -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="home">Home</a></li>
+                        <li class="breadcrumb-item active">My Order</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End All Title Box -->
         <div class="page-wrapper">
             <!-- PAGE CONTAINER-->
             <div class="page-container">

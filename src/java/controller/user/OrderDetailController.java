@@ -22,8 +22,8 @@ import model.User;
  *
  * @author khanh
  */
-@WebServlet(name="OrderDetailServlet", urlPatterns={"/orderdetail"})
-public class OrderDetailServlet extends HttpServlet {
+@WebServlet(name="OrderDetailController", urlPatterns={"/orderdetail"})
+public class OrderDetailController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,10 +40,10 @@ public class OrderDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderDetailServlet</title>");  
+            out.println("<title>Servlet hihi</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet hihi at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,9 +57,9 @@ public class OrderDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         HttpSession session = request.getSession();
         User u = (User) session.getAttribute("userinfo");
         if (u != null) {
@@ -75,7 +75,7 @@ public class OrderDetailServlet extends HttpServlet {
         } else {
             response.sendRedirect("login");
         }
-    }
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.

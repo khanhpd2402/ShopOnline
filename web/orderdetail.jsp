@@ -70,6 +70,20 @@
 
     <body class="animsition">
         <%@include file="model/header.jsp" %>
+        <!-- Start All Title Box -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="home">Home</a></li>
+                        <li class="breadcrumb-item"><a href="myorder?status=1">My Order</a></li>
+                        <li class="breadcrumb-item active">Order Detail</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End All Title Box -->
+
         <div class="page-wrapper">
             <!-- PAGE CONTAINER-->
             <div class="page-container">
@@ -105,7 +119,6 @@
                                                     </td>
                                                     <td class="name-pr"><a href="productdetail?productID=${od.productID}">${od.productName}</a></td>
                                                     <td class="quantity-box">${od.quantity}</td>
-                                                    <td class="quantity-box">${od.quantityInStock}</td>
                                                     <td class="price-pr">
                                                         <p><fmt:formatNumber type="currency" value="${od.price}" /></p>
                                                     </td>

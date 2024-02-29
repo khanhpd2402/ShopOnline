@@ -45,7 +45,7 @@ public class OrderDetailDAO extends DBContext {
                 + "		p.[ProductImg],\n"
                 + "      OD.[Quantity] Quantity\n"
                 + "      ,OD.[price],OD.[Discount]\n"
-                + "  FROM [dbo].[OrderDetail] OD,  [dbo].[Product] P where OD.[productID] = p.[productID] and [orderID] = ? AND OD.[UserID] = ?";
+                + "  FROM [dbo].[OrderDetail] OD,  [dbo].[Product] P,[dbo].[Order] O where OD.[productID] = p.[productID] And OD.[OrderID] = O.[OrderID] and od.[orderID] = ? AND O.[UserID] = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, xOrderID);
@@ -63,9 +63,9 @@ public class OrderDetailDAO extends DBContext {
 
     public static void main(String[] args) {
         OrderDetailDAO dao = new OrderDetailDAO();
-        List<OrderDetail> d = dao.getOrderDetail(2);
+        List<OrderDetail> d = dao.getOrderDetailUser(3,1);
         for (OrderDetail order : d) {
-            System.out.println(order.getOrderID());
+            System.out.println(order.getOrderID() + "" + order.getProductName());
         }
     }
 }
