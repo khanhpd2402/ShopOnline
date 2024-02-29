@@ -77,18 +77,18 @@
                                     <h3>Hóa Đơn</h3>
                                 </div>
                                 <div class="row">
-                                        <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="firstName">Họ</label>
-                                        <input type="text" class="form-control" id="firstName" placeholder="" value="${requestScope.user.firstName}" readonly="">
-                                        <div class="invalid-feedback"> Valid first name is required. </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="firstName">Họ</label>
+                                            <input type="text" class="form-control" id="firstName" placeholder="" value="${requestScope.user.firstName}" readonly="">
+                                            <div class="invalid-feedback"> Valid first name is required. </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="lastName">Tên</label>
+                                            <input type="text" class="form-control" id="lastName" placeholder="" value="${requestScope.user.lastName}" readonly="">
+                                            <div class="invalid-feedback"> Valid last name is required. </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="lastName">Tên</label>
-                                        <input type="text" class="form-control" id="lastName" placeholder="" value="${requestScope.user.lastName}" readonly="">
-                                        <div class="invalid-feedback"> Valid last name is required. </div>
-                                    </div>
-                                </div>
                                     <div class="mb-3">
                                         <label for="lastName">Email</label>
                                         <input type="text" class="form-control" id="address" placeholder="" value="${requestScope.fullInfoUser.email}" readonly="">
@@ -144,7 +144,7 @@
                                             <c:forEach items="${o.items}" var="i">
                                                 <div class="media mb-2 border-bottom">
                                                     <div class="media-body"> 
-                                                            <a href="productdetail?productID=${i.product.productID}">
+                                                        <a href="productdetail?productID=${i.product.productID}">
                                                             ${i.product.productName}
                                                         </a>
                                                         <div class="small text-muted">Giá <fmt:formatNumber type="currency" value="${(i.product.salePrice) - (i.product.salePrice)*(i.product.discount)}"/> <span class="mx-2">|
@@ -172,8 +172,8 @@
                                             <c:set var="cou" value="${requestScope.coupon}"/>
                                             <h4>Mã Ưu đãi</h4>
                                             <div class="ml-auto font-weight-bold"><h4><c:if test="${o.getTotalMoney() > 0}">${cou.code}</c:if>&nbsp;</h4></div>
-                                            <h4>|</h4>
-                                            <h4>Ưu đãi</h4>
+                                                <h4>|</h4>
+                                                <h4>Ưu đãi</h4>
                                             <c:if test="${not cou.type && o.getTotalMoney() > 0}">
                                                 <input name="amountCoupon" value="${cou.value}" type="text" hidden="">
                                                 <div class="ml-auto font-weight-bold">- <fmt:formatNumber type="currency" value="${cou.value}"/></div>
@@ -246,6 +246,7 @@
     <script src="js/form-validator.min.js"></script>
     <script src="js/contact-form-script.js"></script>
     <script src="js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
 </html>

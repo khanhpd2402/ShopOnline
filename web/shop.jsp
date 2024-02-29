@@ -173,12 +173,47 @@
                                 <!--all product-->
 
                             <c:if test="${requestScope.listSearch == null}">
-                                    <c:if test="${requestScope.listProductFilter == null}">
-                                        <div class="row product-categorie-box" id="product-container">
-                                            <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
-                                                    <div class="row">
-                                                        <c:forEach var="da" items="${requestScope.dataAll}">
+                                <c:if test="${requestScope.listProductFilter == null}">
+                                    <div class="row product-categorie-box" id="product-container">
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                                <div class="row">
+                                                    <c:forEach var="da" items="${requestScope.dataAll}">
+                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                            <div class="products-single fix">
+                                                                <div class="box-img-hover">
+                                                                    <div class="type-lb">
+                                                                        <c:if test="${da.discount > 0}"><p class="sale">- ${da.discount * 100}%</p></c:if>
+                                                                        <c:if test="${da.discount == 0}"><p class="new">New</p></c:if>
+                                                                        </div>
+                                                                        <img src="${da.productImg}" class="img-fluid" alt="${da.productName}">
+                                                                    <div class="mask-icon">
+                                                                        <ul>
+                                                                            <li><a href="productdetail?productID=${da.productID}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                        </ul>
+                                                                        <a class="cart" href="process?productID=${da.productID}&returnUrl=<%= uri %>">Add to Cart</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="why-text">
+                                                                    <h4>${da.productName}</h4>
+                                                                    <fmt:setLocale value = "vi_VN"/>
+                                                                    <c:if test="${da.discount > 0}">
+                                                                        <h6 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(da.salePrice)}"/></del></b>
+                                                                            <tt>̣(Save: ${da.discount * 100}%)</tt>̣</h6>
+                                                                        </c:if>
+                                                                    <h5><fmt:formatNumber  type = "currency" value="${(da.salePrice) - (da.salePrice)*(da.discount)}"/></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="list-view">
+                                                <c:forEach var="da" items="${requestScope.dataAll}">
+
+                                                    <div class="list-view-box">
+                                                        <div class="row">
                                                             <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                                                 <div class="products-single fix">
                                                                     <div class="box-img-hover">
@@ -192,75 +227,77 @@
                                                                                 <li><a href="productdetail?productID=${da.productID}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                                             </ul>
-                                                                            <a class="cart" href="process?productID=${da.productID}&returnUrl=<%= uri %>">Add to Cart</a>
+
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="why-text">
-                                                                        <h4>${da.productName}</h4>
-                                                                        <fmt:setLocale value = "vi_VN"/>
-                                                                        <c:if test="${da.discount > 0}">
-                                                                            <h6 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(da.salePrice)}"/></del></b>
-                                                                                <tt>̣(Save: ${da.discount * 100}%)</tt>̣</h6>
-                                                                            </c:if>
-                                                                        <h5><fmt:formatNumber  type = "currency" value="${(da.salePrice) - (da.salePrice)*(da.discount)}"/></h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </c:forEach>
-                                                    </div>
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane fade" id="list-view">
-                                                    <c:forEach var="da" items="${requestScope.dataAll}">
-
-                                                        <div class="list-view-box">
-                                                            <div class="row">
-                                                                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                                                                    <div class="products-single fix">
-                                                                        <div class="box-img-hover">
-                                                                            <div class="type-lb">
-                                                                                <c:if test="${da.discount > 0}"><p class="sale">- ${da.discount * 100}%</p></c:if>
-                                                                                <c:if test="${da.discount == 0}"><p class="new">New</p></c:if>
-                                                                                </div>
-                                                                                <img src="${da.productImg}" class="img-fluid" alt="${da.productName}">
-                                                                            <div class="mask-icon">
-                                                                                <ul>
-                                                                                    <li><a href="productdetail?productID=${da.productID}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                                                                </ul>
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
-                                                                    <div class="why-text full-width">
-                                                                        <h4>${da.productName}</h4>
-                                                                        <fmt:setLocale value = "vi_VN"/>
-                                                                        <c:if test="${da.discount > 0}">
-                                                                            <h5 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(da.salePrice)}"/></del></b>
-                                                                                <tt>̣(Save: ${da.discount * 100}%)</tt>̣</h5>
-                                                                            </c:if>
-                                                                        <h5><fmt:formatNumber  type = "currency" value="${(da.salePrice) - (da.salePrice)*(da.discount)}"/></h5>
-                                                                        <p>RAM: ${da.ram} | CPU: ${da.cpu} | Capacity: ${da.capacity} | Graphic Card: ${da.graphicCard} | Display: ${da.display}</p>
-                                                                        <a class="btn hvr-hover" href="process?productID=${da.productID}&returnUrl=<%= uri %>">Add to Cart</a>
-                                                                    </div>
+                                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                                                                <div class="why-text full-width">
+                                                                    <h4>${da.productName}</h4>
+                                                                    <fmt:setLocale value = "vi_VN"/>
+                                                                    <c:if test="${da.discount > 0}">
+                                                                        <h5 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(da.salePrice)}"/></del></b>
+                                                                            <tt>̣(Save: ${da.discount * 100}%)</tt>̣</h5>
+                                                                        </c:if>
+                                                                    <h5><fmt:formatNumber  type = "currency" value="${(da.salePrice) - (da.salePrice)*(da.discount)}"/></h5>
+                                                                    <p>RAM: ${da.ram} | CPU: ${da.cpu} | Capacity: ${da.capacity} | Graphic Card: ${da.graphicCard} | Display: ${da.display}</p>
+                                                                    <a class="btn hvr-hover" href="process?productID=${da.productID}&returnUrl=<%= uri %>">Add to Cart</a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </c:forEach>
+                                                    </div>
+                                                </c:forEach>
 
-                                                </div>
                                             </div>
                                         </div>
-                                    </c:if>
+                                    </div>
+                                </c:if>
 
 
-                                    <!--filter product-->
-                                    <div class="row product-categorie-box" id="product-container">
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
-                                                <div class="row">
-                                                    <c:forEach var="df" items="${requestScope.listProductFilter}">
+                                <!--filter product-->
+                                <div class="row product-categorie-box" id="product-container">
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                            <div class="row">
+                                                <c:forEach var="df" items="${requestScope.listProductFilter}">
+                                                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                        <div class="products-single fix">
+                                                            <div class="box-img-hover">
+                                                                <div class="type-lb">
+                                                                    <c:if test="${df.discount > 0}"><p class="sale">- ${df.discount * 100}%</p></c:if>
+                                                                    <c:if test="${df.discount == 0}"><p class="new">New</p></c:if>
+                                                                    </div>
+                                                                    <img src="${df.productImg}" class="img-fluid" alt="${df.productName}">
+                                                                <div class="mask-icon">
+                                                                    <ul>
+                                                                        <li><a href="productdetail?productID=${df.productID}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                    </ul>
+                                                                    <a class="cart" href="process?productID=${df.productID}&returnUrl=<%= uri %>">Add to Cart</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="why-text">
+                                                                <h4>${df.productName}</h4>
+                                                                <fmt:setLocale value = "vi_VN"/>
+                                                                <c:if test="${df.discount > 0}">
+                                                                    <h6 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(df.salePrice)}"/></del></b>
+                                                                        <tt>̣(Save: ${df.discount * 100}%)</tt>̣</h6>
+                                                                    </c:if>
+                                                                <h5><fmt:formatNumber  type = "currency" value="${(df.salePrice) - (df.salePrice)*(df.discount)}"/></h5>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane fade" id="list-view">
+                                            <c:forEach var="df" items="${requestScope.listProductFilter}">
+
+                                                <div class="list-view-box">
+                                                    <div class="row">
                                                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                                             <div class="products-single fix">
                                                                 <div class="box-img-hover">
@@ -274,67 +311,30 @@
                                                                             <li><a href="productdetail?productID=${df.productID}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                                         </ul>
-                                                                        <a class="cart" href="process?productID=${df.productID}&returnUrl=<%= uri %>">Add to Cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="why-text">
-                                                                    <h4>${df.productName}</h4>
-                                                                    <fmt:setLocale value = "vi_VN"/>
-                                                                    <c:if test="${df.discount > 0}">
-                                                                        <h6 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(df.salePrice)}"/></del></b>
-                                                                            <tt>̣(Save: ${df.discount * 100}%)</tt>̣</h6>
-                                                                        </c:if>
-                                                                    <h5><fmt:formatNumber  type = "currency" value="${(df.salePrice) - (df.salePrice)*(df.discount)}"/></h5>
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-
-                                            <div role="tabpanel" class="tab-pane fade" id="list-view">
-                                                <c:forEach var="df" items="${requestScope.listProductFilter}">
-
-                                                    <div class="list-view-box">
-                                                        <div class="row">
-                                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                                                                <div class="products-single fix">
-                                                                    <div class="box-img-hover">
-                                                                        <div class="type-lb">
-                                                                            <c:if test="${df.discount > 0}"><p class="sale">- ${df.discount * 100}%</p></c:if>
-                                                                            <c:if test="${df.discount == 0}"><p class="new">New</p></c:if>
-                                                                            </div>
-                                                                            <img src="${df.productImg}" class="img-fluid" alt="${df.productName}">
-                                                                        <div class="mask-icon">
-                                                                            <ul>
-                                                                                <li><a href="productdetail?productID=${df.productID}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                                                            </ul>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
-                                                                <div class="why-text full-width">
-                                                                    <h4>${df.productName}</h4>
-                                                                    <fmt:setLocale value = "vi_VN"/>
-                                                                    <c:if test="${df.discount > 0}">
-                                                                        <h5 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(df.salePrice)}"/></del></b>
-                                                                            <tt>̣(Save: ${df.discount * 100}%)</tt>̣</h5>
-                                                                        </c:if>
-                                                                    <h5><fmt:formatNumber  type = "currency" value="${(df.salePrice) - (df.salePrice)*(df.discount)}"/></h5>
-                                                                    <p>RAM: ${df.ram} | CPU: ${df.cpu} | Capacity: ${df.capacity} | Graphic Card: ${df.graphicCard} | Display: ${df.display}</p>
-                                                                    <a class="btn hvr-hover" href="process?productID=${df.productID}&returnUrl=<%= uri %>">Add to Cart</a>
-                                                                </div>
+                                                        <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                                                            <div class="why-text full-width">
+                                                                <h4>${df.productName}</h4>
+                                                                <fmt:setLocale value = "vi_VN"/>
+                                                                <c:if test="${df.discount > 0}">
+                                                                    <h5 style="color: red"><b><del class="text-muted"><fmt:formatNumber  type = "currency" value="${(df.salePrice)}"/></del></b>
+                                                                        <tt>̣(Save: ${df.discount * 100}%)</tt>̣</h5>
+                                                                    </c:if>
+                                                                <h5><fmt:formatNumber  type = "currency" value="${(df.salePrice) - (df.salePrice)*(df.discount)}"/></h5>
+                                                                <p>RAM: ${df.ram} | CPU: ${df.cpu} | Capacity: ${df.capacity} | Graphic Card: ${df.graphicCard} | Display: ${df.display}</p>
+                                                                <a class="btn hvr-hover" href="process?productID=${df.productID}&returnUrl=<%= uri %>">Add to Cart</a>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </c:forEach>
-                                            </div>
+                                                </div>
+                                            </c:forEach>
                                         </div>
                                     </div>
+                                </div>
                             </c:if>
                             <!--search product-->
                             <div class="row product-categorie-box" id="product-container">
@@ -455,7 +455,7 @@
         <script async src="https://cse.google.com/cse.js?cx=553610216f3604cf3"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 
 </html>

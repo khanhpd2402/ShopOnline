@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>controller.HomeServlet</servlet-class>
-    </servlet>
+   
     <servlet>
         <servlet-name>BlogListServlet</servlet-name>
         <servlet-class>controller.BlogListServlet</servlet-class>
@@ -30,20 +27,17 @@
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controller.LoginServlet</servlet-class>
+        <servlet-class>controller.log.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>controller.LogoutServlet</servlet-class>
+        <servlet-class>controller.log.LogoutServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>controller.RegisterServlet</servlet-class>
+        <servlet-class>controller.log.RegisterServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>HomeServlet</servlet-name>
-        <url-pattern>/home</url-pattern>
-    </servlet-mapping>
+   
     <servlet-mapping>
         <servlet-name>BlogListServlet</servlet-name>
         <url-pattern>/BlogList</url-pattern>
@@ -82,7 +76,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+           9999
         </session-timeout>
     </session-config>
 </web-app>

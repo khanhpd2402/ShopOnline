@@ -8,9 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import model.Cart;
 import model.Item;
-import model.User;
+import model.Order;
 
 /**
  *
@@ -78,4 +80,105 @@ public class OrderDAO extends DBContext {
             connection.rollback(); // Hủy bỏ giao dịch nếu có lỗi
         }
     }
+
+    public void updateStatusOrder(int xOrderID, int status) {
+        String sql = "UPDATE [dbo].[Order] SET [OrderStatus] = ? WHERE [OrderID] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, status);
+            st.setInt(2, xOrderID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
+    public boolean updateStatusOrderUser(int xOrderID, int status, int xIdUser) {
+        String sql = "UPDATE [dbo].[Order] SET [OrderStatus] = ? WHERE [OrderID] = ? AND [UserID] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, status);
+            st.setInt(2, xOrderID);
+            st.setInt(3, xIdUser);
+
+            int rowsAffected = st.executeUpdate();
+
+            // Nếu có ít nhất một dòng được cập nhật, tức là update thành công
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public List<Order> getOrderUser(int xstatus, int userID) {
+        List<Order> list = new ArrayList<>();
+        String sql = " SELECT [OrderID]\n"
+                + "      ,[UserID]\n"
+                + "      ,[OrderDate]\n"
+                + "      ,[Address]\n"
+                + "      ,[Phone]\n"
+                + "      ,[TotalMoney]\n"
+                + "      ,[OrderNote]\n"
+                + "      ,[OrderStatus]\n"
+                + "      ,[amountCoupon]\n"
+                + "  FROM [dbo].[Order] WHERE [UserID] = ? and [OrderStatus] = ? ORDER BY orderID DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, userID);
+            st.setInt(2, xstatus);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Order o = new Order();
+                o.setOrderID(rs.getInt("OrderID"));
+                o.setUserID(rs.getInt("UserID"));
+                o.setOrderDate(rs.getDate("OrderDate"));
+                o.setAddress(rs.getString("Address"));
+                o.setPhone(rs.getString("Phone"));
+                o.setTotalMoney(rs.getFloat("TotalMoney"));
+                o.setOrderNote(rs.getString("OrderNote"));
+                o.setOrderStatus(rs.getInt("OrderStatus"));
+                o.setAmountCoupon(rs.getFloat("amountCoupon"));
+                list.add(o);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<Order> getOrder(int xstatus) {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT [OrderID]\n"
+                + "      ,[UserID]\n"
+                + "      ,[OrderDate]\n"
+                + "      ,[Address]\n"
+                + "      ,[Phone]\n"
+                + "      ,[TotalMoney]\n"
+                + "      ,[OrderNote]\n"
+                + "      ,[OrderStatus]\n"
+                + "      ,[amountCoupon]\n"
+                + "  FROM [dbo].[Order] WHERE [OrderStatus] = ? ORDER BY orderID DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setInt(1, xstatus);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Order o = new Order();
+                o.setOrderID(rs.getInt("OrderID"));
+                o.setUserID(rs.getInt("UserID"));
+                o.setOrderDate(rs.getDate("OrderDate"));
+                o.setAddress(rs.getString("Address"));
+                o.setPhone(rs.getString("Phone"));
+                o.setTotalMoney(rs.getFloat("TotalMoney"));
+                o.setOrderNote(rs.getString("OrderNote"));
+                o.setOrderStatus(rs.getInt("OrderStatus"));
+                o.setAmountCoupon(rs.getFloat("amountCoupon"));
+                list.add(o);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
 }

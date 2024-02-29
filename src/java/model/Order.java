@@ -20,11 +20,12 @@ public class Order {
     private double totalMoney;
     private String orderNote;
     private int orderStatus;
+    private double amountCoupon;
 
     public Order() {
     }
 
-    public Order(int orderID, int userID, Date orderDate, String address, String phone, double totalMoney, String orderNote, int orderStatus) {
+    public Order(int orderID, int userID, Date orderDate, String address, String phone, double totalMoney, String orderNote, int orderStatus, double amountCoupon) {
         this.orderID = orderID;
         this.userID = userID;
         this.orderDate = orderDate;
@@ -33,7 +34,18 @@ public class Order {
         this.totalMoney = totalMoney;
         this.orderNote = orderNote;
         this.orderStatus = orderStatus;
+        this.amountCoupon = amountCoupon;
     }
+
+    public double getAmountCoupon() {
+        return amountCoupon;
+    }
+
+    public void setAmountCoupon(double amountCoupon) {
+        this.amountCoupon = amountCoupon;
+    }
+
+   
 
     public int getOrderID() {
         return orderID;

@@ -79,7 +79,7 @@ public class Cart {
                 int id = Integer.parseInt(n[0]);
                 int quantity = Integer.parseInt(n[1]);
                 Product p = getProductById(id, list);
-                Item t = new Item(p, quantity, p.getQuantity());
+                Item t = new Item(p, quantity, p.getSalePrice());
                 addItem(t);
             }
         }

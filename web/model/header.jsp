@@ -9,7 +9,7 @@
     <div class="container-fluid bg-light">
         <!-- LOGO -->
         <a class="navbar-brand col-lg-2 offset-lg-2 logo" href="${pageContext.request.contextPath}/home">
-            <img src="resources/logo.svg" width="180px"> 
+            <img src="images/logo.png" width="180px"> 
         </a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -24,20 +24,21 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i>
+                        <i class="fas fa-user-circle">${sessionScope.userinfo.username}</i>
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <c:if test="${empty sessionScope.username}">
+                        <c:if test="${empty sessionScope.userinfo}">
                             <!-- Hiển thị khi không có session username -->
                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Login/Register</a></li>
                             </c:if>
 
-                        <c:if test="${not empty sessionScope.username}">
+                        <c:if test="${not empty sessionScope.userinfo}">
                             <!-- Hiển thị khi có session username -->
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="logout?logout=out">Logout</a></li>
                             <!-- Bạn có thể thêm các nút khác cho người dùng đã đăng nhập nếu cần -->
                         </c:if>
+                        <li><a class="dropdown-item" href="myorder?status=1">My Order</a></li>
                     </ul>                 
                 </li>                              
             </ul>
