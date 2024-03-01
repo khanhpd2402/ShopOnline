@@ -23,8 +23,6 @@
         <link href="cssadmin/font-awesome.min.css" rel="stylesheet">
         <link href="cssadmin/datepicker3.css" rel="stylesheet">
         <link href="cssadmin/styles.css" rel="stylesheet">
-        <link href="css/listproducts.css" rel="stylesheet">
-        <link href="css/dropdown.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 
@@ -125,8 +123,6 @@
         <!-- Jquery JS-->
         <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
         <!-- Main JS-->
-        <script src="js/jsordermanage/main.js"></script>
-
         <!--js nav and sidebar-->
         <script src="jsadmin/jquery-1.11.1.min.js"></script>
         <script src="jsadmin/bootstrap.min.js"></script>

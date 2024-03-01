@@ -149,6 +149,35 @@ public class UserDAO extends DBContext {
         return (u);
     }
 
+    public String getAnEmail(String xEmail) {
+        String sql = "select email from [user] where email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, xEmail);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                String email = rs.getString("email");
+                return email;
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public void updatePass(String xEmail, String xPass) throws NoSuchAlgorithmException {
+        String myHash = md5(xPass);
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [password] = ?\n"
+                + " WHERE [email] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, myHash);
+            st.setString(2, xEmail);
+            st.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
         try {

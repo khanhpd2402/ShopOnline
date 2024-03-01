@@ -39,6 +39,7 @@
                             <!-- Bạn có thể thêm các nút khác cho người dùng đã đăng nhập nếu cần -->
                         </c:if>
                         <li><a class="dropdown-item" href="myorder?status=1">My Order</a></li>
+                        <li><a class="dropdown-item" href="infouser">My Account</a></li>
                     </ul>                 
                 </li>                              
             </ul>

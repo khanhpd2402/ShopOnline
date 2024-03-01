@@ -12,10 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.User;
+import controller.SendMail;
 
 /**
  *
@@ -75,6 +73,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SendMail sendMail = new SendMail();
         // Lấy giá trị từ form
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -102,32 +101,30 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("Register.jsp").forward(request, response);
         } else {
             if (gender.equals("male")) {
-                try {
-                    udb.insertUser(username, password, firstname, lastname, true, email, phone, address, 1);
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                response.sendRedirect("login");
-            } else if (gender.equals("female")) {
-                try {
-                    udb.insertUser(username, password, firstname, lastname, false, email, phone, address, 1);
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                response.sendRedirect("login");
-            }
-//                session.setAttribute("insertuser", uNew);
-            //                String verificationCode = generateVerificationCode();
-            //
-            //                // Lưu mã xác nhận vào session
-            //                session.setAttribute("verification", verificationCode);
-            //                session.setMaxInactiveInterval(300);
-            //
-            //                // Gửi email chứa mã xác nhận đến người dùng
-            //                sendConfirmationEmail(email, verificationCode);
-            //                response.sendRedirect("verifysignup");
-            {
+                User uNew = new User(username, password, firstname, lastname, true, email, phone, address, 1);
+                session.setAttribute("insertuser", uNew);
+                String verificationCode = sendMail.generateVerificationCode();
+                
+                // Lưu mã xác nhận vào session
+                session.setAttribute("verification", verificationCode);
+                session.setMaxInactiveInterval(300);
+                
+                // Gửi email chứa mã xác nhận đến người dùng
+                sendMail.sendConfirmationEmail(email, verificationCode);
+                response.sendRedirect("verifyregister");
 
+            } else if (gender.equals("female")) {
+                User uNew = new User(username, password, firstname, lastname, false, email, phone, address, 1);
+                session.setAttribute("insertuser", uNew);
+                String verificationCode = sendMail.generateVerificationCode();
+                
+                // Lưu mã xác nhận vào session
+                session.setAttribute("verification", verificationCode);
+                session.setMaxInactiveInterval(300);
+                
+                // Gửi email chứa mã xác nhận đến người dùng
+                sendMail.sendConfirmationEmail(email, verificationCode);
+                response.sendRedirect("verifyregister");
             }
         }
     }

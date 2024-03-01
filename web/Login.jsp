@@ -123,7 +123,7 @@
 
                     <a href="${pageContext.request.contextPath}/register" class="register-link">Register</a>
 
-                    <a href="${pageContext.request.contextPath}/forgot_password" class="forgot-password">Forgot Password?</a>
+                    <a href="forgotpass" class="forgot-password">Forgot Password?</a>
                 </form>
             </div>
         </div>

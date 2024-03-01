@@ -96,6 +96,9 @@
                 <h2>Register</h2>
                 <form action="register" method="post">
                     <!-- Add your registration form fields here -->
+                    <c:if test="${not empty errorusername}">
+                        <div class="error-message"><p style=" color: red">${errorusername}</p></div>
+                        </c:if>
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" 
                            pattern="[A-Za-z0-9_.\-]{4,}" title="Các ký tự được chấp nhận bao gồm chữ cái viết hoa, chữ cái viết thường, chữ số, dấu gạch dưới (_), dấu chấm (.) và dấu gạch ngang (-) và tên đăng nhập phải nhiều hơn 4 kí tự."
@@ -119,13 +122,13 @@
                         <option value="female">Female</option>
                     </select>
                     <c:if test="${not empty erroremail}">
-                        <div class="error-message">${erroremail}</div>
-                    </c:if>
+                        <div class="error-message"><p style=" color: red">${erroremail}</p></div>
+                        </c:if>
                     <label for="email">Email:</label>
                     <input type="text" id="email" placeholder="mail@example.com" name="email">
                     <c:if test="${not empty errorphone}">
-                        <div class="error-message">${errorphone}</div>
-                    </c:if>
+                        <div class="error-message"><p style=" color: red">${errorphone}</p></div>
+                        </c:if>
                     <label for="phone">Phone</label>
                     <input type="text" id="phone" pattern="[0-9]{10}" title="Please enter a valid phone number." name="phone" required>
                     <label for="address">Address</label>
