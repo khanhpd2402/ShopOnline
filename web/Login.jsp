@@ -121,7 +121,7 @@
 
                     <input type="submit" value="Login">
 
-                    <a href="${pageContext.request.contextPath}/register" class="register-link">Register</a>
+                    <a href="register" class="register-link">Register</a>
 
                     <a href="forgotpass" class="forgot-password">Forgot Password?</a>
                 </form>

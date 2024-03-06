@@ -171,7 +171,7 @@
                                                     <td id="Phone">${l.phone}</td>
                                                     <td id="amountCoupon">${l.amountCoupon}</td>
                                                     <td id="OrderNote">${l.orderNote}</td>
-                                                    <td id="Detail"><fmt:formatNumber type = "currency" value="${(l.totalMoney)}"/></td>
+                                                    <td id="TotalMoney"><fmt:formatNumber type = "currency" value="${(l.totalMoney)}"/></td>
                                                     <td id="Detail"><a href="orderdetail?orderID=${l.orderID}">Xem Chi Tiết</a></td>
                                                     <td id="Action">
                                                         <a href="myorder?action=cancel&orderID=${l.orderID}&status=5" class="denied">Hủy</a>
@@ -186,7 +186,7 @@
                                                     <td id="Phone">${l.phone}</td>
                                                     <td id="amountCoupon">${l.amountCoupon}</td>
                                                     <td id="OrderNote">${l.orderNote}</td>
-                                                    <td id="Detail"><fmt:formatNumber type = "currency" value="${(l.totalMoney)}"/></td>
+                                                    <td id="TotalMoney"><fmt:formatNumber type = "currency" value="${(l.totalMoney)}"/></td>
                                                     <td id="Detail"><a href="orderdetail?orderID=${l.orderID}">Xem Chi Tiết</a></td>
                                                     <td id="Action">
                                                     </td>

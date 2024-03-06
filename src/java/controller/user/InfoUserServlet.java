@@ -70,7 +70,7 @@ public class InfoUserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User us = (User) session.getAttribute("userinfo");
         if (us != null) {
-            User u = udb.getAnUser(us.getUsername(), "", "");
+            User u = udb.getAnUser(us.getUsername());
             request.setAttribute("anuser", u);
             request.getRequestDispatcher("infouser.jsp").forward(request, response);
         } else {
@@ -91,7 +91,6 @@ public class InfoUserServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User us = (User) session.getAttribute("userinfo");
-        User u2 = udb.getAnUser(us.getUsername(), "", "");
         String changepass = request.getParameter("changepass");
         if (us != null) {
             //doi mat khau
@@ -103,12 +102,13 @@ public class InfoUserServlet extends HttpServlet {
                 try {
                     if (udb.checkUserToLogin(uname, oldPass)) {
                         udb.updatePass(email, newPass);
-                        request.setAttribute("UpdatePassSuccess", "Mật khẩu đã được thay đổi, vui lòng đăng nhập lại!");
+                        request.setAttribute("existModal", "existModal");
+                        request.setAttribute("mess", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
                         session.removeAttribute("userinfo");
-                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                        request.getRequestDispatcher("infouser.jsp").forward(request, response);
                     } else {
                         request.setAttribute("errorUpdatePass", "Mật Khẩu cũ không đúng!");
-                        request.setAttribute("anuser", u2);
+                        request.setAttribute("anuser", us);
                         request.getRequestDispatcher("infouser.jsp").forward(request, response);
                     }
                 } catch (NoSuchAlgorithmException ex) {
@@ -122,68 +122,31 @@ public class InfoUserServlet extends HttpServlet {
                 String fname = request.getParameter("fname");
                 String lname = request.getParameter("lname");
                 String gender = request.getParameter("gender");
-                String email = request.getParameter("email");
-                String phone = request.getParameter("phone");
-                String address = request.getParameter("address");
 
-                try {
-                    String unameCheck = "";
-                    String emailCheck = "";
-                    String phoneCheck = "";
-                    //check xem nguoi dung co thay doi thong tin hay khong
-                    if (!u2.getUsername().equals(uname)) {
-                        unameCheck = uname;
+                String unameCheck = "";
+                //check xem nguoi dung co thay doi userName hay khong
+                if (!us.getUsername().equals(uname)) {
+                    unameCheck = uname;
+                }
+                User u = udb.getAnUser(unameCheck);
+                if ((u != null)) {
+                    if (u.getUsername().equalsIgnoreCase(uname) && (u.getUserID() != us.getUserID())) {
+                        request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
                     }
-                    if (!u2.getEmail().equals(email)) {
-                        emailCheck = email;
+                    request.setAttribute("anuser", us);
+                    request.getRequestDispatcher("infouser.jsp").forward(request, response);
+                } else {
+                    if (gender.equals("male")) {
+                        User uNew = new User(us.getUserID(), uname, fname, lname, true);
+                        udb.updateUser(uNew);
+                        request.setAttribute("existModal", "existModal");
+                        request.setAttribute("mess", "Đổi thông tin cá nhân thành công, vui lòng đăng nhập lại!");
+                    } else if (gender.equals("female")) {
+                        User uNew = new User(us.getUserID(), uname, fname, lname, false);
+                        udb.updateUser(uNew);
+                        request.setAttribute("existModal", "existModal");
+                        request.setAttribute("mess", "Đổi thông tin cá nhân thành công, vui lòng đăng nhập lại!");
                     }
-                    if (!u2.getPhone().equals(phone)) {
-                        phoneCheck = phone;
-                    }
-                    User u = udb.getAnUser(unameCheck, emailCheck, phoneCheck);
-                    if ((u != null)) {
-                        if (u.getUsername().equalsIgnoreCase(uname) && (u.getUserID() != us.getUserID())) {
-                            request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
-                        }
-                        if (u.getEmail().equalsIgnoreCase(email) && (u.getUserID() != us.getUserID())) {
-                            request.setAttribute("erroremail", "Email đã được sử dụng!");
-                        }
-                        if (u.getPhone().equals(phone) && (u.getUserID() != us.getUserID())) {
-                            request.setAttribute("errorphone", "Số điện thoại đã được sử dụng!");
-                        }
-                        request.setAttribute("anuser", u2);
-                        request.getRequestDispatcher("infouser.jsp").forward(request, response);
-                    } else {
-                        if (gender.equals("male")) {
-                            User uNew = new User(uname, fname, lname, true, email, phone, address);
-                            session.setAttribute("insertuser", uNew);
-                            //tao session de gui thong tin uNew di
-                            String verificationCode = sendMail.generateVerificationCode();
-
-                            // Lưu mã xác nhận vào session
-                            session.setAttribute("verification", verificationCode);
-                            //dat thoi gian ton tai session la 5'
-                            session.setMaxInactiveInterval(300);
-                            // Gửi email chứa mã xác nhận đến người dùng
-                            sendMail.sendConfirmationEmail(email, verificationCode);
-                            response.sendRedirect("verifyupdate");
-                        } else if (gender.equals("female")) {
-                            User uNew = new User(uname, fname, lname, false, email, phone, address);
-                            session.setAttribute("insertuser", uNew);
-                            //tao session de gui thong tin uNew di
-                            String verificationCode = sendMail.generateVerificationCode();
-
-                            // Lưu mã xác nhận vào session
-                            session.setAttribute("verification", verificationCode);
-                            //dat thoi gian ton tai session la 5'
-                            session.setMaxInactiveInterval(300);
-                            // Gửi email chứa mã xác nhận đến người dùng
-                            sendMail.sendConfirmationEmail(email, verificationCode);
-                            response.sendRedirect("verifyupdate");
-                        }
-                    }
-
-                } catch (NumberFormatException e) {
                     request.getRequestDispatcher("infouser.jsp").forward(request, response);
                 }
             }

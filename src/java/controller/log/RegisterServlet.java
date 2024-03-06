@@ -14,6 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
 import controller.SendMail;
+import dao.UserContactDAO;
+import java.util.List;
+import model.UserContact;
 
 /**
  *
@@ -84,18 +87,19 @@ public class RegisterServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         UserDAO udb = new UserDAO();
+        UserContactDAO ucdb = new UserContactDAO();
 
         HttpSession session = request.getSession();
-
-        User u = udb.getAnUser(username, email, phone);
+        User u = udb.getAnUser(username);
+        UserContact userContact =ucdb.getExistContact(email, phone);
         if (u != null) {
             if (u.getUsername().equals(username)) {
                 request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
             }
-            if (u.getEmail().equals(email)) {
+            if (userContact.getEmail().equals(email)) {
                 request.setAttribute("erroremail", "Email đã được sử dụng!");
             }
-            if (u.getPhone().equals(phone)) {
+            if (userContact.getPhone().equals(phone)) {
                 request.setAttribute("errorphone", " Số điện thoại đã được sử dụng!");
             }
             request.getRequestDispatcher("Register.jsp").forward(request, response);

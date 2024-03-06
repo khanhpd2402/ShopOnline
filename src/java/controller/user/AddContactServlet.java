@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.log;
+package controller.user;
 
-import controller.SendMail;
+import dao.UserDAO;
 import dao.UserContactDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,15 +14,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.User;
+import model.UserContact;
 
 /**
  *
- * @author duykh
+ * @author khanh
  */
-@WebServlet(name = "ForgotPassServlet", urlPatterns = {"/forgotpass"})
-public class ForgotPassServlet extends HttpServlet {
+@WebServlet(name = "AddContactServlet", urlPatterns = {"/addcontact"})
+public class AddContactServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private UserDAO udb = new UserDAO();
+    private UserContactDAO ucdb = new UserContactDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +45,10 @@ public class ForgotPassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SendMailServlet</title>");
+            out.println("<title>Servlet AddContactServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SendMailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddContactServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +66,7 @@ public class ForgotPassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("forgotpass.jsp").forward(request, response);
+        request.getRequestDispatcher("addcontact.jsp").forward(request, response);
     }
 
     /**
@@ -76,31 +80,36 @@ public class ForgotPassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SendMail sendMail = new SendMail();
+        HttpSession session = request.getSession();
+
         String email = request.getParameter("email");
-        UserContactDAO ucdb = new UserContactDAO();
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
 
-        // Kiểm tra email trong cơ sở dữ liệu để tìm thông tin người dùng
-        // Nếu tìm thấy, gửi email xác nhận
-        if (ucdb.getAnEmail(email) != null) {
-            String verificationCode = sendMail.generateVerificationCode();
-
-            // Lưu mã xác nhận vào session
-            HttpSession session = request.getSession();
-            session.setAttribute("verificationCode", verificationCode);
-            // Lưu email vào session
-            session.setAttribute("email", email);
-            session.setMaxInactiveInterval(300);
-
-            // Gửi email chứa mã xác nhận đến người dùng
-            sendMail.sendConfirmationEmail(email, verificationCode);
-            response.sendRedirect("verifyfogotpass");
+        User u = (User) session.getAttribute("userinfo");
+        if (u != null) {
+            List<UserContact> listContactsUser = ucdb.getAllContactAnUser(0);
+            boolean check = true;
+            for (UserContact userContact : listContactsUser) {
+                if (userContact.getEmail().equalsIgnoreCase(email)) {
+                    request.setAttribute("erroremail", "Email đã được sử dụng!");
+                    check = false;
+                }
+                if (userContact.getPhone().equals(phone)) {
+                    request.setAttribute("errorphone", "Số điện thoại đã được sử dụng!");
+                    check = false;
+                }
+            }
+            if (check) {
+                ucdb.insertUserContact(u.getUserID(), email, phone, address);
+                response.sendRedirect("allcontacts");
+            } else {
+                request.getRequestDispatcher("addcontact.jsp").forward(request, response);
+            }
         } else {
-            request.setAttribute("notfound", "Tìm kiếm không trả về kết quả nào. Vui lòng thử lại với thông tin khác.");
-            request.getRequestDispatcher("forgotpass.jsp").forward(request, response);
+            response.sendRedirect("login");
         }
 
-        // Chuyển hướng người dùng đến trang xác nhận
     }
 
     /**

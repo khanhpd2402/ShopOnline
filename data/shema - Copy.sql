@@ -51,16 +51,10 @@ CREATE TABLE [dbo].[User](
 	firstName nvarchar(255) NOT NULL,
 	lastName nvarchar(255) NOT NULL,	
 	[Gender] [bit] NULL,
-	[status] tinyint DEFAULT 1 CONSTRAINT CHECK_status_User CHECK([status] in (0,1)),
-	[UserContactID_Favorite] [int]
-	)
-
-CREATE TABLE [dbo].[UserContact](
-	[UserContactID] [int] IDENTITY(1,1) PRIMARY KEY,
-	[UserID] [int] CONSTRAINT FK_UserContact_UserID FOREIGN KEY REFERENCES [User](UserID) NOT NULL,
 	[Email] [nvarchar](255) NULL,
 	[Phone] [varchar](15) NULL,
 	[Address] [nvarchar](max) NULL,
+	[status] tinyint DEFAULT 1 CONSTRAINT CHECK_status_User CHECK([status] in (0,1))
 	)
 
 CREATE TABLE [dbo].[Admin](

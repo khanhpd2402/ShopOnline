@@ -84,7 +84,7 @@ public class CheckoutServlet extends HttpServlet {
         User us = (User) session.getAttribute("userinfo");
         if (us != null) {
             //lay user theo id user dc lay tu session
-            User u = ud.getAnUser(us.getUsername(), "", "");
+            User u = ud.getAnUser(us.getUsername());
             request.setAttribute("user", u);
 
             ProductDAO d = new ProductDAO();
@@ -132,7 +132,7 @@ public class CheckoutServlet extends HttpServlet {
         OrderDAO odao = new OrderDAO();
         UserDAO ud = new UserDAO();
 
-        User u = ud.getAnUser(us.getUsername(), "", "");
+        User u = ud.getAnUser(us.getUsername());
         List<Product> list = d.getAllProduct(0);
         Cookie[] arr = request.getCookies();
         String txt = "";

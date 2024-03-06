@@ -5,6 +5,7 @@
 package model;
 
 public class User {
+
     private int userID;
     private String username;
     private String password;
@@ -15,8 +16,23 @@ public class User {
     private String phone;
     private String address;
     private int status;
+    private int userContactID_Favorite;
 
     public User() {
+    }
+
+    public User(int userID, String username, String password, String firstName, String lastName, boolean gender, String email, String phone, String address, int status, int userContactID_Favorite) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.status = status;
+        this.userContactID_Favorite = userContactID_Favorite;
     }
 
     public User(int userID, String username, String password, String firstName, String lastName, boolean gender, String email, String phone, String address, int status) {
@@ -52,6 +68,33 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.address = address;
+    }
+
+    public User(int userID, String username, String password, String firstName, String lastName, boolean gender, int status, int userContactID_Favorite) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.status = status;
+        this.userContactID_Favorite = userContactID_Favorite;
+    }
+
+    public User(int userID, String username, String firstName, String lastName, boolean gender) {
+        this.userID = userID;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+    }
+
+    public int getUserContactID_Favorite() {
+        return userContactID_Favorite;
+    }
+
+    public void setUserContactID_Favorite(int userContactID_Favorite) {
+        this.userContactID_Favorite = userContactID_Favorite;
     }
 
     public int getUserID() {
@@ -134,6 +177,4 @@ public class User {
         this.status = status;
     }
 
-  
-    
 }

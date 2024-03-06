@@ -7,22 +7,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
 import model.User;
 
 public class UserDAO extends DBContext {
 
+    public static void main(String[] args) {
+        UserDAO userDAO = new UserDAO();
+
+        userDAO.updateUserContactID_Favorite(25, 16);
+    }
     private PreparedStatement ps;
-    private ResultSet rs;
 
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        String query = "SELECT * FROM User ";
+        String query = "SELECT \n"
+                + "    U.UserID,\n"
+                + "    U.Username,\n"
+                + "    U.Password,\n"
+                + "    U.firstName,\n"
+                + "    U.lastName,\n"
+                + "    U.Gender,\n"
+                + "    U.status,\n"
+                + "    U.UserContactID_Favorite,\n"
+                + "    UC.Email,\n"
+                + "    UC.Phone,\n"
+                + "    UC.Address\n"
+                + "FROM \n"
+                + "    [dbo].[User] U\n"
+                + "INNER JOIN \n"
+                + "    [dbo].[UserContact] UC ON U.UserID = UC.UserID AND U.UserContactID_Favorite = UC.UserContactID";
         try {
             ps = connection.prepareStatement(query);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new User(
                         rs.getInt("UserID"),
@@ -51,7 +68,6 @@ public class UserDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 if (rs.getString("username").equals(xUsername) & rs.getString("password").equals(myHash)) {
-
                     return true;
                 }
             }
@@ -73,59 +89,92 @@ public class UserDAO extends DBContext {
     }
 
     public void insertUser(String username, String password, String firstName,
-            String lastName, boolean gender, String email, String phone, String address, int status) throws NoSuchAlgorithmException {
+            String lastName, boolean gender, String email, String phone, String address, int status) throws NoSuchAlgorithmException, SQLException {
         String myHash = md5(password);
-        String query = "INSERT INTO [dbo].[User]\n"
-                + "           ([Username]\n"
-                + "           ,[Password]\n"
-                + "           ,[firstName]\n"
-                + "           ,[lastName]\n"
-                + "           ,[Gender]\n"
-                + "           ,[Email]\n"
-                + "           ,[Phone]\n"
-                + "           ,[Address]\n"
-                + "           ,[status])\n"
-                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        UserContactDAO ucd = new UserContactDAO();
         try {
-            ps = connection.prepareStatement(query);
-            ps.setString(1, username);
-            ps.setString(2, myHash);
-            ps.setString(3, firstName);
-            ps.setString(4, lastName);
-            ps.setBoolean(5, gender);
-            ps.setString(6, email);
-            ps.setString(7, phone);
-            ps.setString(8, address);
-            ps.setInt(9, status);
+            //add vao user truoc
+            String query = "INSERT INTO [dbo].[User]\n"
+                    + "           ([Username]\n"
+                    + "           ,[Password]\n"
+                    + "           ,[firstName]\n"
+                    + "           ,[lastName]\n"
+                    + "           ,[Gender]\n"
+                    + "           ,[status])\n"
+                    + "     VALUES (?, ?, ?, ?, ?, ?);";
 
-            ps.executeUpdate();
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, username);
+            st.setString(2, myHash);
+            st.setString(3, firstName);
+            st.setString(4, lastName);
+            st.setBoolean(5, gender);
+            st.setInt(6, status);
+            st.executeUpdate();
 
+            //lay id cua user vua add
+            String query2 = "select top 1 [UserID] from [User] order by [UserID] desc";
+            PreparedStatement st2 = connection.prepareStatement(query2);
+            ResultSet rs = st2.executeQuery();
+
+            //add bang UserContact
+            if (rs.next()) {
+                int userID = rs.getInt("UserID");
+                ucd.insertUserContact(userID, email, phone, address);
+
+                //lay UserContactID vua add
+                String query3 = "select top 1 [UserContactID] from [UserContact] order by [UserContactID] desc";
+                PreparedStatement st3 = connection.prepareStatement(query3);
+                ResultSet rs2 = st3.executeQuery();
+
+                //update lien lac yeu thich(mac dinh la lien lac khi user dang ki tai khoan)
+                if (rs2.next()) {
+                    int UserContactID = rs2.getInt("UserContactID");
+                    updateUserContactID_Favorite(UserContactID, userID);
+                }
+            }
         } catch (SQLException e) {
-            // Handle the exception
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 
-    public User getAnUser(String xUsername, String xEmail, String xPhone) {
-        String sql = "SELECT [UserID]\n"
-                + "      ,[Username]\n"
-                + "      ,[Password]\n"
-                + "      ,[firstName]\n"
-                + "      ,[lastName]\n"
-                + "      ,[Gender]\n"
-                + "      ,[Email]\n"
-                + "      ,[Phone]\n"
-                + "      ,[Address]\n"
-                + "      ,[status]\n"
-                + "  FROM [dbo].[User] where Username = ? or email = ? or phone = ?";
+    public void updateUserContactID_Favorite(int xUserContactID_Favorite, int xUserID) {
+        String sql = "UPDATE [dbo].[User] SET \n"
+                + "[UserContactID_Favorite] = ?\n"
+                + " WHERE [UserID] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, xUserContactID_Favorite);
+            st.setInt(2, xUserID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public User getAnUser(String xUsername) {
+        String sql = "SELECT \n"
+                + "    U.UserID,\n"
+                + "    U.Username,\n"
+                + "    U.Password,\n"
+                + "    U.firstName,\n"
+                + "    U.lastName,\n"
+                + "    U.Gender,\n"
+                + "    U.status, U.UserContactID_Favorite,\n"
+                + "    UC.Email,\n"
+                + "    UC.Phone,\n"
+                + "    UC.Address\n"
+                + "FROM \n"
+                + "    [dbo].[User] U\n"
+                + "INNER JOIN \n"
+                + "    [dbo].[UserContact] UC ON U.UserContactID_Favorite = UC.UserContactID\n"
+                + "WHERE \n"
+                + " U.UserID = UC.UserID AND [status] = 1 AND U.Username = ?";
 
         User u = null;
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, xUsername);
-            st.setString(2, xEmail);
-            st.setString(3, xPhone);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 u = new User(
@@ -138,7 +187,7 @@ public class UserDAO extends DBContext {
                         rs.getString("Email"),
                         rs.getString("Phone"),
                         rs.getString("Address"),
-                        rs.getInt("Status"));
+                        rs.getInt("Status"), rs.getInt("UserContactID_Favorite"));
                 return u;
             }
             rs.close();
@@ -149,26 +198,13 @@ public class UserDAO extends DBContext {
         return (u);
     }
 
-    public String getAnEmail(String xEmail) {
-        String sql = "select email from [user] where email = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, xEmail);
-            rs = st.executeQuery();
-            if (rs.next()) {
-                String email = rs.getString("email");
-                return email;
-            }
-        } catch (SQLException e) {
-        }
-        return null;
-    }
-
     public void updatePass(String xEmail, String xPass) throws NoSuchAlgorithmException {
         String myHash = md5(xPass);
         String sql = "UPDATE [dbo].[User]\n"
-                + "   SET [password] = ?\n"
-                + " WHERE [email] = ?";
+                + "SET [Password] = ?\n"
+                + "FROM [dbo].[User] U\n"
+                + "INNER JOIN [dbo].[UserContact] UC ON U.[UserID] = UC.[UserID]\n"
+                + "WHERE UC.[Email] = ? AND U.[UserContactID_Favorite] = UC.[UserContactID];";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, myHash);
@@ -178,12 +214,23 @@ public class UserDAO extends DBContext {
         }
     }
 
-    public static void main(String[] args) {
-        UserDAO dao = new UserDAO();
+    public void updateUser(User u) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [Username] = ?\n"
+                + "      ,[firstName] = ?\n"
+                + "      ,[lastName] = ?\n"
+                + "      ,[Gender] = ?"
+                + " WHERE userID = ?";
         try {
-            dao.insertUser("hungtrinh", "Hungtrinh@123", "hung", "trinh", true, "Hungtrinh@gmail.com", "0884248518", "hanoi", 1);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, u.getUsername());
+            st.setString(2, u.getFirstName());
+            st.setString(3, u.getLastName());
+            st.setBoolean(4, u.isGender());
+            st.setInt(5, u.getUserID());
+            st.executeUpdate();
+        } catch (SQLException e) {
         }
     }
+
 }

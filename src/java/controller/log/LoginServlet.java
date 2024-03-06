@@ -105,7 +105,7 @@ public class LoginServlet extends HttpServlet {
         AdminDAO ad = new AdminDAO();
         try {
             if (ud.checkUserToLogin(username, pass) && role.equals("u")) {
-                User u = ud.getAnUser(username, "", "");
+                User u = ud.getAnUser(username);
                 session.setAttribute("userinfo", u);
                 response.sendRedirect("home");
             } else if (ad.checkAdminToLogin(username, pass) && role.equals("a")) {

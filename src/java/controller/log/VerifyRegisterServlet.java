@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.User;
@@ -93,9 +94,13 @@ public class VerifyRegisterServlet extends HttpServlet {
             session.removeAttribute("verification"); // Xóa mã xác nhận khỏi session
             session.removeAttribute("incorrectAttempt"); // Xóa số lần nhập sai khỏi session
             try {
-                udb.insertUser(
-                        uNew.getUsername(), uNew.getPassword(), uNew.getFirstName(), uNew.getLastName(),
-                        uNew.isGender(), uNew.getEmail(), uNew.getPhone(), uNew.getAddress(), 1);
+                try {
+                    udb.insertUser(
+                            uNew.getUsername(), uNew.getPassword(), uNew.getFirstName(), uNew.getLastName(),
+                            uNew.isGender(), uNew.getEmail(), uNew.getPhone(), uNew.getAddress(), 1);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VerifyRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 session.removeAttribute("insertuser");
                 request.setAttribute("title", "Đăng Kí Tài Khoản Thành Công!");
                 request.setAttribute("messRegister", "Chúc bạn có những trải nghiệm mua sắm tuyệt vời cùng Shop Online. Vui lòng đăng nhập để tiếp tục.");
