@@ -56,7 +56,7 @@
             </li>
 
             <li class="nav-item me-4">
-                <a class="nav-link" aria-current="page" href="shop">Product</a>
+                <a class="nav-link" aria-current="page" href="shop">Products</a>
             </li>
             <li class="nav-item me-4">
                 <a class="nav-link" href="#footer">About Us</a>

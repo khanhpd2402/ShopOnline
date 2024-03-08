@@ -7,7 +7,6 @@ package controller.user;
 import dao.UserContactDAO;
 import dao.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -85,12 +84,37 @@ public class AllContactsServlet extends HttpServlet {
             String phone = request.getParameter("phone").trim();
             String address = request.getParameter("address").trim();
             //check xem nguoi dung co thay doi thong tin hay khong
-
-            List<UserContact> listContactsUser = ucdb.getAllContactAnUser(0);
-            for (UserContact userContact : listContactsUser) {
-                if (userContact.getEmail().equals(email)) {
-
+            String emailCheck = "";
+            String phoneCheck = "";
+            UserContact uc = ucdb.getAnContactById(Integer.parseInt(userContactID));
+            if (!uc.getEmail().equals(email)) {
+                emailCheck = email;
+            }
+            if (!uc.getPhone().equals(phone)) {
+                phoneCheck = phone;
+            }
+            // Kiểm tra xem email và phone mới đã tồn tại chưa
+            UserContact uc2 = ucdb.getExistContact(emailCheck, phoneCheck);
+            if ((uc2 != null)) {
+                if (uc2.getEmail().equalsIgnoreCase(email)) {
+                    // Nếu tên email mới đã tồn tại, đặt thuộc tính "erroremail" để hiển thị thông báo lỗi
+                    request.setAttribute("erroremail", "Email đã được sử dụng!");
+                    //gui lai userContactID de so sanh va hien thong bao loi dung vi tri userContactID user muon sua
+                    request.setAttribute("errorid", Integer.parseInt(userContactID));
                 }
+                if (uc2.getPhone().equals(phone)) {
+                    // Nếu tên phone mới đã tồn tại, đặt thuộc tính "errorphone" để hiển thị thông báo lỗi
+                    request.setAttribute("errorphone", "Số điện thoại đã được sử dụng!");
+                    request.setAttribute("errorid", Integer.parseInt(userContactID));
+                }
+                //gui lai list contacts len page allcontacts.jsp
+                request.setAttribute("userContacts", ucdb.getAllContactAnUser(u.getUserID()));
+                request.getRequestDispatcher("allcontacts.jsp").forward(request, response);
+            } else {
+                //cap nhat thong tin lien he ng dung
+                UserContact ucUpdate = new UserContact(Integer.parseInt(userContactID), email, phone, address);
+                ucdb.updateUserContact(ucUpdate);
+                response.sendRedirect("allcontacts");
             }
         }
     }

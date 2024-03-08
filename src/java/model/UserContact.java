@@ -32,6 +32,13 @@ public class UserContact {
         this.phone = phone;
     }
 
+    public UserContact(int userContactID, String email, String phone, String address) {
+        this.userContactID = userContactID;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+    }
+
     public int getUserContactID() {
         return userContactID;
     }
@@ -39,9 +46,6 @@ public class UserContact {
     public void setUserContactID(int userContactID) {
         this.userContactID = userContactID;
     }
-
-
-  
 
     public int getUserID() {
         return userID;

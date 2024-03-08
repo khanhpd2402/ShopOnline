@@ -1,15 +1,6 @@
 ﻿--create database [OnlineShop3]
 --drop database [OnlineShop3]
 
-
-CREATE TABLE [dbo].[Blog](
-	[ID] [int] IDENTITY(1,1) PRIMARY KEY,
-	[Author] [nvarchar](100) NULL,
-	[Title] [nvarchar](2500) NULL,
-	[Content] [nvarchar](max) NULL,
-	[Image] [nvarchar](1000) NULL
-	)
-
 CREATE TABLE [dbo].[Brand](
 	[BrandID] [int] IDENTITY(1,1) PRIMARY KEY,
 	[BrandName] [nvarchar](1000) NULL,

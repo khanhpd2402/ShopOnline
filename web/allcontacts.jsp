@@ -139,8 +139,15 @@
                         <span style="color: #28a745"> <c:if test="${o.userContactID == sessionScope.userinfo.userContactID_Favorite}">Liên hệ mặc định</c:if></span>
                         <input type="text" name="userContactID" id="userContactID" value="${o.userContactID}" hidden="" >
                         <input type="text" id="action" name="action" value="edit" hidden="" >
-
+                        <!-- Hiển thị thông báo lỗi -->
+                        <c:if test="${(not empty erroremail) && (errorid == o.userContactID)}">
+                            <div class="error-message" style="color: red">${erroremail}</div>
+                        </c:if>
                         <input type="email" name="email" id="email${o.userContactID}" value="${o.email}" placeholder="mail@example.com" required readonly="">
+                        <!-- Hiển thị thông báo lỗi -->
+                        <c:if test="${(not empty errorphone) && (errorid == o.userContactID)}">
+                            <div class="error-message" style="color: red">${errorphone}</div>
+                        </c:if>
                         <input type="text" name="phone" id="phone${o.userContactID}" value="${o.phone}" pattern="[0-9]{10}" title="Please enter a valid phone number." placeholder="Phone" required readonly="">
                         <input type="text" name="address" id="address${o.userContactID}" value="${o.address}" placeholder="Address" required readonly="">
                         <div class="button-container">

@@ -17,6 +17,7 @@ import model.UserContact;
  */
 public class UserContactDAO extends DBContext {
 // Phương thức chèn thông tin liên lạc của người dùng vào cơ sở dữ liệu
+
     public void insertUserContact(int userID, String email, String phone, String address) {
         String query = "INSERT INTO [dbo].[UserContact]\n"
                 + "           ([UserID]\n"
@@ -45,6 +46,7 @@ public class UserContactDAO extends DBContext {
         }
     }
 // Phương thức lấy tất cả thông tin liên lạc của một người dùng dựa trên UserID
+
     public List<UserContact> getAllContactAnUser(int xUserID) {
         List<UserContact> list = new ArrayList<>();
 
@@ -77,6 +79,7 @@ public class UserContactDAO extends DBContext {
         return list;
     }
 // Phương thức kiểm tra xem một thông tin liên lạc đã tồn tại hay chưa dựa trên Email hoặc Phone
+
     public UserContact getExistContact(String xEmail, String xPhone) {
         UserContact uc = null;
         String sql = "SELECT [Email]\n"
@@ -96,6 +99,7 @@ public class UserContactDAO extends DBContext {
         return uc;
     }
 // Phương thức lấy thông tin liên lạc của một người dùng dựa trên UserContactID
+
     public UserContact getAnContactById(int xUserContactID) {
         UserContact uc = null;
         String sql = "  SELECT [UserContactID]\n"
@@ -117,6 +121,7 @@ public class UserContactDAO extends DBContext {
         return uc;
     }
 // Phương thức lấy Email của người dùng dựa trên Email
+
     public String getAnEmail(String xEmail) {
         String sql = "SELECT UC.[Email]\n"
                 + "FROM [dbo].[User] U\n"
@@ -134,7 +139,26 @@ public class UserContactDAO extends DBContext {
         }
         return null;
     }
-
+    
+// Phương thức cập nhật thông tin lien he người dùng
+    public void updateUserContact(UserContact u) {
+        // Truy vấn SQL cập nhật thông tin người dùng trong bảng UserContact dựa trên UserContactID
+        String sql = "UPDATE [dbo].[UserContact]\n"
+                + "     SET [Email] = ?\n"
+                + "      ,[Phone] = ?\n"
+                + "      ,[Address] = ?\n"
+                + " WHERE [UserContactID] = ?";
+        try {
+            // Chuẩn bị và thực hiện truy vấn SQL với các tham số là thông tin mới của người dùng
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, u.getEmail());
+            st.setString(2, u.getPhone());
+            st.setString(3, u.getAddress());
+            st.setInt(4, u.getUserContactID());
+            st.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
 //    public void updateUserContact(int xUserContactID_Favorite, int xUserID) {
 //        String sql = "UPDATE [dbo].[User]\n"
 //                + "   SET [UserContactID_Favorite] = ?\n"
