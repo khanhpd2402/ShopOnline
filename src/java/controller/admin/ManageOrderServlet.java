@@ -61,12 +61,15 @@ public class ManageOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         OrderDAO odb = new OrderDAO();
-
+// Lấy các tham số từ request để xử lý các hành động liên quan đến đơn hàng
         String action = request.getParameter("action");
         String orderID_raw = request.getParameter("orderID");
+        // Kiểm tra nếu có tham số action và orderID
         if (action != null && orderID_raw != null) {
             try {
+                // Chuyển đổi orderID từ String sang int
                 int orderID = Integer.parseInt(orderID_raw);
+                // Thực hiện các hành động tương ứng với action
                 switch (action) {
                     case "cancel":
                         odb.updateStatusOrder(orderID, 5);
@@ -86,10 +89,12 @@ public class ManageOrderServlet extends HttpServlet {
             } catch (NumberFormatException e) {
             }
         }
-
+// Lấy trạng thái đơn hàng từ request để hiển thị danh sách theo trạng thái
         String status_raw = request.getParameter("status");
         try {
+            // Chuyển đổi status từ String sang int
             int status = Integer.parseInt(status_raw);
+            // Hiển thị danh sách đơn hàng tương ứng với trạng thái
             switch (status) {
                 case 1: {
                     List<Order> list = odb.getOrder(status);
