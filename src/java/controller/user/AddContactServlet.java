@@ -88,36 +88,30 @@ public class AddContactServlet extends HttpServlet {
         String address = request.getParameter("address");
 // Lấy thông tin người dùng từ session
         User u = (User) session.getAttribute("userinfo");
-        if (u != null) {
-            // Nếu người dùng đã đăng nhập
-            // Lấy danh sách tất cả các liên hệ của người dùng từ cơ sở dữ liệu
-            List<UserContact> listContactsUser = ucdb.getAllContactAnUser(0);
-            // Biến kiểm tra để đảm bảo rằng email và số điện thoại không bị trùng lặp
-            boolean check = true;
-            // Duyệt qua danh sách liên hệ để kiểm tra trùng lặp
-            for (UserContact userContact : listContactsUser) {
-                if (userContact.getEmail().equalsIgnoreCase(email)) {
-                    // Nếu email đã được sử dụng, đặt thuộc tính "erroremail" để hiển thị thông báo lỗi
-                    request.setAttribute("erroremail", "Email đã được sử dụng!");
-                    check = false;
-                }
-                if (userContact.getPhone().equals(phone)) {
-                    // Nếu số điện thoại đã được sử dụng, đặt thuộc tính "errorphone" để hiển thị thông báo lỗi
-                    request.setAttribute("errorphone", "Số điện thoại đã được sử dụng!");
-                    check = false;
-                }
+        // Lấy danh sách tất cả các liên hệ của người dùng từ cơ sở dữ liệu
+        List<UserContact> listContactsUser = ucdb.getAllContactAnUser(0);
+        // Biến kiểm tra để đảm bảo rằng email và số điện thoại không bị trùng lặp
+        boolean check = true;
+        // Duyệt qua danh sách liên hệ để kiểm tra trùng lặp
+        for (UserContact userContact : listContactsUser) {
+            if (userContact.getEmail().equalsIgnoreCase(email)) {
+                // Nếu email đã được sử dụng, đặt thuộc tính "erroremail" để hiển thị thông báo lỗi
+                request.setAttribute("erroremail", "Email đã được sử dụng!");
+                check = false;
             }
-            if (check) {
-                ucdb.insertUserContact(u.getUserID(), email, phone, address);
-                // Nếu không có trùng lặp, thêm liên hệ mới vào cơ sở dữ liệu và chuyển hướng đến trang "allcontacts"
-                response.sendRedirect("allcontacts");
-            } else {
-                request.getRequestDispatcher("addcontact.jsp").forward(request, response);
+            if (userContact.getPhone().equals(phone)) {
+                // Nếu số điện thoại đã được sử dụng, đặt thuộc tính "errorphone" để hiển thị thông báo lỗi
+                request.setAttribute("errorphone", "Số điện thoại đã được sử dụng!");
+                check = false;
             }
-        } else {
-            response.sendRedirect("login");
         }
-
+        if (check) {
+            ucdb.insertUserContact(u.getUserID(), email, phone, address);
+            // Nếu không có trùng lặp, thêm liên hệ mới vào cơ sở dữ liệu và chuyển hướng đến trang "allcontacts"
+            response.sendRedirect("allcontacts");
+        } else {
+            request.getRequestDispatcher("addcontact.jsp").forward(request, response);
+        }
     }
 
     /**

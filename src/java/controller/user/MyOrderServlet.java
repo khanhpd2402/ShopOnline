@@ -71,45 +71,40 @@ public class MyOrderServlet extends HttpServlet {
 // Lấy giá trị action từ tham số request để xác định hành động người dùng muốn thực hiện
         String action = request.getParameter("action");
         String orderID_raw = request.getParameter("orderID");
-        // Kiểm tra xem người dùng đã đăng nhập hay chưa. Nếu người dùng đã đăng nhập, tiếp tục xử lý thông tin đơn hàng
-        if (u != null) {
-            // Kiểm tra hành động người dùng, nếu là "cancel" (hủy đơn hàng)
-            if (action != null && action.equals("cancel") && orderID_raw != null) {
-                try {
-                    // parse giá trị orderID từ String sang Integer
-                    int orderID = Integer.parseInt(orderID_raw);
-                    // Gọi phương thức updateStatusOrderUser từ OrderDAO để cập nhật trạng thái đơn hàng thành "Đã hủy"
-                    boolean check = odb.updateStatusOrderUser(orderID, 5, u.getUserID());
-                    // Kiểm tra kết quả cập nhật, nếu không thành công, thông báo lỗi
-                    if (!check) {
-                        request.setAttribute("mess", "Đơn hàng hủy không thành công!");
-                    }
-                } catch (NumberFormatException e) {
-                }
-            }
-// Lấy giá trị status từ tham số request để xác định trạng thái của đơn hàng
-            String status_raw = request.getParameter("status");
-            try {
-                int status = Integer.parseInt(status_raw);
-                if (status != 5) {
-                    // Trường hợp mặc định: Lấy danh sách đơn hàng dựa trên trạng thái
-                    List<Order> list = odb.getOrderUser(status, u.getUserID());
-                    request.setAttribute("listOrder", list);
-                    request.setAttribute("status", status);
-                } else {
-                    // Trường hợp xem đơn hàng đã bị hủy: Lấy danh sách đơn hàng hủy dựa trên trạng thái và userID
-                    List<Order> list = odb.getOrderUser(status, u.getUserID());
-                    request.setAttribute("listCancel", list);
-                    request.setAttribute("status", status);
-                }
 
+        // Kiểm tra hành động người dùng, nếu là "cancel" (hủy đơn hàng)
+        if (action != null && action.equals("cancel") && orderID_raw != null) {
+            try {
+                // parse giá trị orderID từ String sang Integer
+                int orderID = Integer.parseInt(orderID_raw);
+                // Gọi phương thức updateStatusOrderUser từ OrderDAO để cập nhật trạng thái đơn hàng thành "Đã hủy"
+                boolean check = odb.updateStatusOrderUser(orderID, 5, u.getUserID());
+                // Kiểm tra kết quả cập nhật, nếu không thành công, thông báo lỗi
+                if (!check) {
+                    request.setAttribute("mess", "Đơn hàng hủy không thành công!");
+                }
             } catch (NumberFormatException e) {
             }
-            request.getRequestDispatcher("myorder.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("login");
         }
+// Lấy giá trị status từ tham số request để xác định trạng thái của đơn hàng
+        String status_raw = request.getParameter("status");
+        try {
+            int status = Integer.parseInt(status_raw);
+            if (status != 5) {
+                // Trường hợp mặc định: Lấy danh sách đơn hàng dựa trên trạng thái
+                List<Order> list = odb.getOrderUser(status, u.getUserID());
+                request.setAttribute("listOrder", list);
+                request.setAttribute("status", status);
+            } else {
+                // Trường hợp xem đơn hàng đã bị hủy: Lấy danh sách đơn hàng hủy dựa trên trạng thái và userID
+                List<Order> list = odb.getOrderUser(status, u.getUserID());
+                request.setAttribute("listCancel", list);
+                request.setAttribute("status", status);
+            }
 
+        } catch (NumberFormatException e) {
+        }
+        request.getRequestDispatcher("myorder.jsp").forward(request, response);
     }
 
     /**

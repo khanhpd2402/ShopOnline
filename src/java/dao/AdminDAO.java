@@ -36,7 +36,6 @@ public class AdminDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 if (rs.getString("AdminName").equals(xAdminname) & rs.getString("password").equals(myHash)) {
-
                     return true;
                 }
             }

@@ -69,14 +69,10 @@ public class InfoUserServlet extends HttpServlet {
         // Lấy HttpSession từ request để kiểm tra xem người dùng đã đăng nhập hay chưa
         HttpSession session = request.getSession();
         User us = (User) session.getAttribute("userinfo");
-        if (us != null) {
-            // Nếu người dùng đã đăng nhập, lấy thông tin người dùng từ database
-            User u = udb.getAnUser(us.getUsername());
-            request.setAttribute("anuser", u);
-            request.getRequestDispatcher("infouser.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("login");
-        }
+        // lấy thông tin người dùng từ database
+        User u = udb.getAnUser(us.getUsername());
+        request.setAttribute("anuser", u);
+        request.getRequestDispatcher("infouser.jsp").forward(request, response);
     }
 
     /**
@@ -94,78 +90,74 @@ public class InfoUserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User us = (User) session.getAttribute("userinfo");
         String changepass = request.getParameter("changepass");
-        // Nếu người dùng đã đăng nhập
-        if (us != null) {
-            //doi mat khau
-            if (changepass != null) {
-                // Lấy giá trị từ form
-                String oldPass = request.getParameter("oldpass");
-                String newPass = request.getParameter("newpass");
-                String email = request.getParameter("email");
-                String uname = request.getParameter("uname");
-                try {
-                    // Kiểm tra mật khẩu cũ của người dùng
-                    if (udb.checkUserToLogin(uname, oldPass)) {
-                        // Nếu mật khẩu cũ đúng, cập nhật mật khẩu mới
-                        udb.updatePass(email, newPass);
-                        request.setAttribute("existModal", "existModal");
-                        request.setAttribute("mess", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
-                        // Xóa thông tin người dùng khỏi session để yêu cầu đăng nhập lại
-                        session.removeAttribute("userinfo");
-                        request.getRequestDispatcher("infouser.jsp").forward(request, response);
-                    } else {
-                        // Nếu mật khẩu cũ không đúng, đặt thuộc tính "errorUpdatePass" để hiển thị thông báo lỗi
-                        request.setAttribute("errorUpdatePass", "Mật Khẩu cũ không đúng!");
-                        request.setAttribute("anuser", us);
-                        request.getRequestDispatcher("infouser.jsp").forward(request, response);
-                    }
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(InfoUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                //doi thong tin ca nhan nguoi dung
-                // Lấy giá trị từ form
-                String uname = request.getParameter("uname");
-                String fname = request.getParameter("fname");
-                String lname = request.getParameter("lname");
-                String gender = request.getParameter("gender");
 
-                String unameCheck = "";
-                //check xem nguoi dung co thay doi userName hay khong
-                if (!us.getUsername().equals(uname)) {
-                    unameCheck = uname;
-                }
-                // Kiểm tra xem tên đăng nhập mới đã tồn tại chưa
-                User u = udb.getAnUser(unameCheck);
-                if ((u != null)) {
-                    if (u.getUsername().equalsIgnoreCase(uname) && (u.getUserID() != us.getUserID())) {
-                        // Nếu tên đăng nhập mới đã tồn tại, đặt thuộc tính "errorusername" để hiển thị thông báo lỗi
-                        request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
-                    }
-                    request.setAttribute("anuser", us);
+        //doi mat khau
+        if (changepass != null) {
+            // Lấy giá trị từ form
+            String oldPass = request.getParameter("oldpass");
+            String newPass = request.getParameter("newpass");
+            String email = request.getParameter("email");
+            String uname = request.getParameter("uname");
+            try {
+                // Kiểm tra mật khẩu cũ của người dùng
+                if (udb.checkUserToLogin(uname, oldPass)) {
+                    // Nếu mật khẩu cũ đúng, cập nhật mật khẩu mới
+                    udb.updatePass(email, newPass);
+                    request.setAttribute("existModal", "existModal");
+                    request.setAttribute("mess", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
+                    // Xóa thông tin người dùng khỏi session để yêu cầu đăng nhập lại
+                    session.removeAttribute("userinfo");
                     request.getRequestDispatcher("infouser.jsp").forward(request, response);
                 } else {
-                    if (gender.equals("male")) {
-                        User uNew = new User(us.getUserID(), uname, fname, lname, true);
-                        //cap nhat thong tin ng dung
-                        udb.updateUser(uNew);
-                        // Xóa thông tin người dùng khỏi session để yêu cầu đăng nhập lại
-                        session.removeAttribute("userinfo");
-                        request.setAttribute("existModal", "existModal");
-                        request.setAttribute("mess", "Đổi thông tin cá nhân thành công, vui lòng đăng nhập lại!");
-                    } else if (gender.equals("female")) {
-                        User uNew = new User(us.getUserID(), uname, fname, lname, false);
-                        udb.updateUser(uNew);
-                        // Xóa thông tin người dùng khỏi session để yêu cầu đăng nhập lại
-                        session.removeAttribute("userinfo");
-                        request.setAttribute("existModal", "existModal");
-                        request.setAttribute("mess", "Đổi thông tin cá nhân thành công, vui lòng đăng nhập lại!");
-                    }
+                    // Nếu mật khẩu cũ không đúng, đặt thuộc tính "errorUpdatePass" để hiển thị thông báo lỗi
+                    request.setAttribute("errorUpdatePass", "Mật Khẩu cũ không đúng!");
+                    request.setAttribute("anuser", us);
                     request.getRequestDispatcher("infouser.jsp").forward(request, response);
                 }
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(InfoUserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            response.sendRedirect("login");
+            //doi thong tin ca nhan nguoi dung
+            // Lấy giá trị từ form
+            String uname = request.getParameter("uname");
+            String fname = request.getParameter("fname");
+            String lname = request.getParameter("lname");
+            String gender = request.getParameter("gender");
+
+            String unameCheck = "";
+            //check xem nguoi dung co thay doi userName hay khong
+            if (!us.getUsername().equals(uname)) {
+                unameCheck = uname;
+            }
+            // Kiểm tra xem tên đăng nhập mới đã tồn tại chưa
+            User u = udb.getAnUser(unameCheck);
+            if ((u != null)) {
+                if (u.getUsername().equalsIgnoreCase(uname) && (u.getUserID() != us.getUserID())) {
+                    // Nếu tên đăng nhập mới đã tồn tại, đặt thuộc tính "errorusername" để hiển thị thông báo lỗi
+                    request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
+                }
+                request.setAttribute("anuser", us);
+                request.getRequestDispatcher("infouser.jsp").forward(request, response);
+            } else {
+                if (gender.equals("male")) {
+                    User uNew = new User(us.getUserID(), uname, fname, lname, true);
+                    //cap nhat thong tin ng dung
+                    udb.updateUser(uNew);
+                    // Xóa thông tin người dùng khỏi session để yêu cầu đăng nhập lại
+                    session.removeAttribute("userinfo");
+                    request.setAttribute("existModal", "existModal");
+                    request.setAttribute("mess", "Đổi thông tin cá nhân thành công, vui lòng đăng nhập lại!");
+                } else if (gender.equals("female")) {
+                    User uNew = new User(us.getUserID(), uname, fname, lname, false);
+                    udb.updateUser(uNew);
+                    // Xóa thông tin người dùng khỏi session để yêu cầu đăng nhập lại
+                    session.removeAttribute("userinfo");
+                    request.setAttribute("existModal", "existModal");
+                    request.setAttribute("mess", "Đổi thông tin cá nhân thành công, vui lòng đăng nhập lại!");
+                }
+                request.getRequestDispatcher("infouser.jsp").forward(request, response);
+            }
         }
     }
 

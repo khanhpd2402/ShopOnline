@@ -13,13 +13,13 @@
         </a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
+
             <ul class="navbar-nav me-auto ms-auto">                
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="cart">
                         <i class="fas fa-shopping-cart"></i>
-                        
+
                     </a>
                 </li>
                 <li class="nav-item dropdown">
@@ -28,6 +28,7 @@
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
                         <c:if test="${empty sessionScope.userinfo}">
                             <!-- Hiển thị khi không có session username -->
                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Login/Register</a></li>
@@ -35,18 +36,17 @@
 
                         <c:if test="${not empty sessionScope.userinfo}">
                             <!-- Hiển thị khi có session username -->
+                            <li><a class="dropdown-item" href="myorder?status=1">My Order</a></li>
+                            <li><a class="dropdown-item" href="infouser">My Account</a></li>
                             <li><a class="dropdown-item" href="logout?logout=out">Logout</a></li>
-                            <!-- Bạn có thể thêm các nút khác cho người dùng đã đăng nhập nếu cần -->
-                        </c:if>
-                        <li><a class="dropdown-item" href="myorder?status=1">My Order</a></li>
-                        <li><a class="dropdown-item" href="infouser">My Account</a></li>
+                            </c:if>
                     </ul>                 
                 </li>                              
             </ul>
         </div>
     </div>
 </nav>
-                        
+
 <!-- SECONDARY NAVBAR -->
 <nav id="navbar2" class="navbar navbar-expand-lg navbar-dark bg-dark d-none d-lg-block p-1">
     <div class="container-fluid">
@@ -57,15 +57,6 @@
 
             <li class="nav-item me-4">
                 <a class="nav-link" aria-current="page" href="shop">Product</a>
-            </li>
-            
-            <li class="nav-item dropdown me-4">
-                <a class="nav-link" href="${pageContext.request.contextPath}/BlogList">
-                    Blog
-                </a>
-            </li>
-            <li class="nav-item me-4">
-                <a class="nav-link" aria-current="page" href="PostController">Post</a>
             </li>
             <li class="nav-item me-4">
                 <a class="nav-link" href="#footer">About Us</a>

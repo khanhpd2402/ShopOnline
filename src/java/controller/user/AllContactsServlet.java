@@ -49,14 +49,9 @@ public class AllContactsServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User us = (User) session.getAttribute("userinfo");
         UserContactDAO ucdb = new UserContactDAO();
-        if (us != null) {
-            List<UserContact> userContacts = ucdb.getAllContactAnUser(us.getUserID());
-            request.setAttribute("userContacts", userContacts);
-            request.getRequestDispatcher("allcontacts.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("login");
-        }
-
+        List<UserContact> userContacts = ucdb.getAllContactAnUser(us.getUserID());
+        request.setAttribute("userContacts", userContacts);
+        request.getRequestDispatcher("allcontacts.jsp").forward(request, response);
     }
 
     /**
@@ -84,17 +79,16 @@ public class AllContactsServlet extends HttpServlet {
             request.setAttribute("existModal", "existModal");
             session.removeAttribute("userinfo");
             request.getRequestDispatcher("allcontacts.jsp").forward(request, response);
-        }
-        //chinh sua lien he
+        } //chinh sua lien he
         else if (action.equals("edit")) {
             String email = request.getParameter("email").trim();
             String phone = request.getParameter("phone").trim();
             String address = request.getParameter("address").trim();
             //check xem nguoi dung co thay doi thong tin hay khong
-            
+
             List<UserContact> listContactsUser = ucdb.getAllContactAnUser(0);
             for (UserContact userContact : listContactsUser) {
-                if (userContact.getEmail().equals(email) ) {
+                if (userContact.getEmail().equals(email)) {
 
                 }
             }
