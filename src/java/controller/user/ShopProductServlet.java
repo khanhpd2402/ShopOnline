@@ -65,28 +65,31 @@ public class ShopProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+// Lấy thông tin từ các tham số truyền vào từ request
         String name = request.getParameter("searchname");
         String[] categoryIDs = request.getParameterValues("category");
         String[] brandIDs = request.getParameterValues("brand");
         String price_raw = request.getParameter("price");
         String priceS_raw = request.getParameter("priceS");
-
+// Khởi tạo các đối tượng DAO để thực hiện các thao tác với cơ sở dữ liệu
         ProductDAO pdb = new ProductDAO();
         CategoryDAO cdb = new CategoryDAO();
         BrandDAO sdb = new BrandDAO();
-
+// Khởi tạo danh sách để lưu trữ categoryIDs và brandIDs sau khi parse từ String sang Integer
         List<Integer> parsedBrandIDs = new ArrayList<>();
         List<Integer> parsedCategoryIDs = new ArrayList<>();
+        // Khởi tạo biến để lưu trữ giá trị của bộ lọc price
         long minPrice = 0;
         long maxPrice = 0;
         int priceS = 0;
+        // parse giá trị priceS từ String sang Integer
         try {
             priceS = Integer.parseInt(priceS_raw);
         } catch (NumberFormatException e) {
         }
+        // Kiểm tra xem có tham số brandIDs, categoryIDs, hoặc price được truyền vào không
         if (brandIDs != null || categoryIDs != null || price_raw != null) {
-            //parse suplierID
+            // Parse brandIDs từ String sang Integer và thêm vào danh sách parsedBrandIDs
             if (brandIDs != null) {
                 for (String brandId : brandIDs) {
                     try {
@@ -96,7 +99,7 @@ public class ShopProductServlet extends HttpServlet {
                     }
                 }
             }
-            //parse categoryID
+            // Parse categoryIDs từ String sang Integer và thêm vào danh sách parsedCategoryIDs
             if (categoryIDs != null) {
                 for (String categoryId : categoryIDs) {
                     try {
@@ -106,38 +109,43 @@ public class ShopProductServlet extends HttpServlet {
                     }
                 }
             }
-            //parse price
+            // Parse giá trị price từ tham số price_raw và lưu vào minPrice và maxPrice
             if (price_raw != null) {
-                // Remove currency symbol (₫) and percent encoding (%C2%A0)
+                // Xóa ký tự không phải số và dấu chấm từ chuỗi giá trị (%C2%A0)
                 String cleanedPrice_raw1 = price_raw.replaceAll("[^\\d.-]", "");
                 String cleanedPrice_raw = cleanedPrice_raw1.replaceAll("\\.", "");
+                // Tách chuỗi thành mảng các giá trị min và max
                 String[] price = cleanedPrice_raw.split("-");
                 if (price.length == 2) {
-
                     try {
                         minPrice = Long.parseLong(price[0]);
                         maxPrice = Long.parseLong(price[1]);
                     } catch (NumberFormatException e) {
+                        // Xử lý nếu có lỗi trong quá trình parse
                         minPrice = 1;
                         maxPrice = 1;
                     }
                 }
             }
+            // Gọi phương thức getProductByFilter từ ProductDAO để lấy danh sách sản phẩm theo bộ lọc
             List<Product> listFilter = pdb.getProductByFilter(parsedCategoryIDs, parsedBrandIDs, minPrice, maxPrice, priceS);
             request.setAttribute("listProductFilter", listFilter);
         } else {
-
+// Nếu không filter, lấy tất cả sản phẩm từ ProductDAO
             List<Product> listAll = pdb.getAllProduct(0);
             request.setAttribute("dataAll", listAll);
         }
+        // tìm kiếm theo tên sản phẩm
         if (name != null) {
+            // Gọi phương thức searchProductByName từ ProductDAO để lấy danh sách sản phẩm theo tên
             List<Product> listSearch = pdb.searchProductByName(name, priceS);
+            // Kiểm tra xem danh sách tìm kiếm có rỗng không
             if (listSearch.isEmpty()) {
                 request.setAttribute("notfound", "The product you requested could not be found!");
             }
             request.setAttribute("listSearch", listSearch);
         }
-
+// Lấy danh sách tất cả category và brand từ CategoryDAO và BrandDAO để hiển thị trong giao diện
         List<Category> listAllc = cdb.getAllCategory();
         request.setAttribute("dataAllc", listAllc);
         List<Brand> listAllb = sdb.getAllBrandToSearch();

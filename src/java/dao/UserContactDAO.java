@@ -16,7 +16,7 @@ import model.UserContact;
  * @author khanh
  */
 public class UserContactDAO extends DBContext {
-
+// Phương thức chèn thông tin liên lạc của người dùng vào cơ sở dữ liệu
     public void insertUserContact(int userID, String email, String phone, String address) {
         String query = "INSERT INTO [dbo].[UserContact]\n"
                 + "           ([UserID]\n"
@@ -44,7 +44,7 @@ public class UserContactDAO extends DBContext {
 
         }
     }
-
+// Phương thức lấy tất cả thông tin liên lạc của một người dùng dựa trên UserID
     public List<UserContact> getAllContactAnUser(int xUserID) {
         List<UserContact> list = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class UserContactDAO extends DBContext {
         }
         return list;
     }
-
+// Phương thức kiểm tra xem một thông tin liên lạc đã tồn tại hay chưa dựa trên Email hoặc Phone
     public UserContact getExistContact(String xEmail, String xPhone) {
         UserContact uc = null;
         String sql = "SELECT [Email]\n"
@@ -95,7 +95,7 @@ public class UserContactDAO extends DBContext {
         }
         return uc;
     }
-
+// Phương thức lấy thông tin liên lạc của một người dùng dựa trên UserContactID
     public UserContact getAnContactById(int xUserContactID) {
         UserContact uc = null;
         String sql = "  SELECT [UserContactID]\n"
@@ -116,7 +116,7 @@ public class UserContactDAO extends DBContext {
         }
         return uc;
     }
-
+// Phương thức lấy Email của người dùng dựa trên Email
     public String getAnEmail(String xEmail) {
         String sql = "SELECT UC.[Email]\n"
                 + "FROM [dbo].[User] U\n"

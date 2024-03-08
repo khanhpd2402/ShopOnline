@@ -18,9 +18,11 @@ public class UserDAO extends DBContext {
         userDAO.updateUserContactID_Favorite(25, 16);
     }
     private PreparedStatement ps;
-
+    
+// Phương thức lấy danh sách tất cả người dùng từ cơ sở dữ liệu
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
+        // Truy vấn SQL lấy thông tin người dùng và liên lạc từ bảng User và UserContact
         String query = "SELECT \n"
                 + "    U.UserID,\n"
                 + "    U.Username,\n"
@@ -38,8 +40,10 @@ public class UserDAO extends DBContext {
                 + "INNER JOIN \n"
                 + "    [dbo].[UserContact] UC ON U.UserID = UC.UserID AND U.UserContactID_Favorite = UC.UserContactID";
         try {
+            // Chuẩn bị và thực hiện truy vấn SQL
             ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
+            // Duyệt qua kết quả và tạo đối tượng User từ dữ liệu trả về
             while (rs.next()) {
                 list.add(new User(
                         rs.getInt("UserID"),
@@ -58,19 +62,23 @@ public class UserDAO extends DBContext {
         }
         return list;
     }
-
+    
+// Phương thức kiểm tra thông tin người dùng để đăng nhập
     public boolean checkUserToLogin(String xUsername, String xPassword) throws NoSuchAlgorithmException {
         String myHash = md5(xPassword);
         String sql = "select username, [password] from [User] where username = ? and status = 1";
         try {
+            // Chuẩn bị và thực hiện truy vấn SQL với tham số
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, xUsername);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
+                // So sánh thông tin đăng nhập với dữ liệu trong cơ sở dữ liệu
                 if (rs.getString("username").equals(xUsername) & rs.getString("password").equals(myHash)) {
                     return true;
                 }
             }
+            // Đóng ResultSet và PreparedStatement
             rs.close();
             st.close();
         } catch (SQLException e) {
@@ -78,16 +86,20 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
-
+    
+// Phương thức mã hóa mật khẩu bằng thuật toán MD5
     public String md5(String pass) throws NoSuchAlgorithmException {
+        // Sử dụng MessageDigest để thực hiện mã hóa MD5
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(pass.getBytes());
         byte[] digest = md.digest();
+        // Trả về chuỗi hex được in hoa của mật khẩu đã được mã hóa
         String myHash = DatatypeConverter
                 .printHexBinary(digest).toUpperCase();
         return myHash;
     }
-
+    
+// Phương thức thêm mới người dùng vào cơ sở dữ liệu
     public void insertUser(String username, String password, String firstName,
             String lastName, boolean gender, String email, String phone, String address, int status) throws NoSuchAlgorithmException, SQLException {
         String myHash = md5(password);
@@ -117,17 +129,17 @@ public class UserDAO extends DBContext {
             PreparedStatement st2 = connection.prepareStatement(query2);
             ResultSet rs = st2.executeQuery();
 
-            //add bang UserContact
+            // Thêm thông tin liên lạc người dùng vào bảng UserContact
             if (rs.next()) {
                 int userID = rs.getInt("UserID");
                 ucd.insertUserContact(userID, email, phone, address);
 
-                //lay UserContactID vua add
+                // Lấy UserContactID của liên lạc vừa thêm mới
                 String query3 = "select top 1 [UserContactID] from [UserContact] order by [UserContactID] desc";
                 PreparedStatement st3 = connection.prepareStatement(query3);
                 ResultSet rs2 = st3.executeQuery();
 
-                //update lien lac yeu thich(mac dinh la lien lac khi user dang ki tai khoan)
+                // Cập nhật UserContactID_Favorite cho người dùng mới(mac dinh la lien lac khi user dang ki tai khoan)
                 if (rs2.next()) {
                     int UserContactID = rs2.getInt("UserContactID");
                     updateUserContactID_Favorite(UserContactID, userID);
@@ -137,12 +149,14 @@ public class UserDAO extends DBContext {
             System.out.println(e);
         }
     }
-
+    
+// Phương thức cập nhật UserContactID_Favorite cho một người dùng
     public void updateUserContactID_Favorite(int xUserContactID_Favorite, int xUserID) {
         String sql = "UPDATE [dbo].[User] SET \n"
                 + "[UserContactID_Favorite] = ?\n"
                 + " WHERE [UserID] = ?";
         try {
+            // Thực hiện truy vấn cập nhật UserContactID_Favorite cho người dùng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, xUserContactID_Favorite);
             st.setInt(2, xUserID);
@@ -151,8 +165,10 @@ public class UserDAO extends DBContext {
             System.out.println(e);
         }
     }
-
+    
+// Phương thức lấy thông tin của một người dùng dựa trên tên đăng nhập
     public User getAnUser(String xUsername) {
+        // Truy vấn lấy thông tin người dùng từ bảng User và UserContact
         String sql = "SELECT \n"
                 + "    U.UserID,\n"
                 + "    U.Username,\n"
@@ -173,10 +189,12 @@ public class UserDAO extends DBContext {
 
         User u = null;
         try {
+            // Thực hiện truy vấn với tham số là tên đăng nhập
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, xUsername);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
+                // Tạo đối tượng User từ dữ liệu trả về
                 u = new User(
                         rs.getInt("UserID"),
                         rs.getString("Username"),
@@ -197,15 +215,19 @@ public class UserDAO extends DBContext {
         }
         return (u);
     }
-
+    
+    // Phương thức cập nhật mật khẩu của người dùng dựa trên địa chỉ email
     public void updatePass(String xEmail, String xPass) throws NoSuchAlgorithmException {
+        // Tạo mã hash cho mật khẩu mới
         String myHash = md5(xPass);
+        // Truy vấn SQL cập nhật mật khẩu trong bảng User dựa trên địa chỉ email và UserContactID_Favorite
         String sql = "UPDATE [dbo].[User]\n"
                 + "SET [Password] = ?\n"
                 + "FROM [dbo].[User] U\n"
                 + "INNER JOIN [dbo].[UserContact] UC ON U.[UserID] = UC.[UserID]\n"
                 + "WHERE UC.[Email] = ? AND U.[UserContactID_Favorite] = UC.[UserContactID];";
         try {
+            // Chuẩn bị và thực hiện truy vấn SQL với tham số là mật khẩu đã hash và địa chỉ email
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, myHash);
             st.setString(2, xEmail);
@@ -213,8 +235,10 @@ public class UserDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
-
+    
+// Phương thức cập nhật thông tin người dùng
     public void updateUser(User u) {
+        // Truy vấn SQL cập nhật thông tin người dùng trong bảng User dựa trên UserID
         String sql = "UPDATE [dbo].[User]\n"
                 + "   SET [Username] = ?\n"
                 + "      ,[firstName] = ?\n"
@@ -222,6 +246,7 @@ public class UserDAO extends DBContext {
                 + "      ,[Gender] = ?"
                 + " WHERE userID = ?";
         try {
+            // Chuẩn bị và thực hiện truy vấn SQL với các tham số là thông tin mới của người dùng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, u.getUsername());
             st.setString(2, u.getFirstName());

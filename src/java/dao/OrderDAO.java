@@ -20,6 +20,7 @@ import model.Order;
  */
 public class OrderDAO extends DBContext {
 
+   // Thêm đơn hàng và chi tiết đơn hàng vào cơ sở dữ liệu
     public void insertOrder(int xUserID, String xPhone, Cart cart, String paymentMethod, String address, double totalMoney, String orderNote, double amountCoupon) throws SQLException {
         LocalDate curDate = LocalDate.now();
         String date = curDate.toString();
@@ -43,9 +44,10 @@ public class OrderDAO extends DBContext {
             st.setString(4, xPhone);
             st.setDouble(5, totalMoney);
             st.setString(6, orderNote);
-            if (paymentMethod.equals("1")) {
+            // Xác định trạng thái đơn hàng dựa trên phương thức thanh toán
+            if (paymentMethod.equals("1")) {// Trạng thái 1 cho thanh toán trực tuyến
                 st.setInt(7, 1);
-            } else if (paymentMethod.equals("2")) {
+            } else if (paymentMethod.equals("2")) {// Trạng thái 2 cho thanh toán khi nhận hàng
                 st.setInt(7, 2);
             }
             st.setDouble(8, amountCoupon);
@@ -55,7 +57,6 @@ public class OrderDAO extends DBContext {
             PreparedStatement st1 = connection.prepareStatement(sql1);
             ResultSet rs = st1.executeQuery();
             //add bang orderdetail
-
             if (rs.next()) {
                 int orderID = rs.getInt("orderID");
                 for (Item i : cart.getItems()) {
@@ -80,7 +81,7 @@ public class OrderDAO extends DBContext {
             connection.rollback(); // Hủy bỏ giao dịch nếu có lỗi
         }
     }
-
+// Cập nhật trạng thái đơn hàng dựa trên OrderID
     public void updateStatusOrder(int xOrderID, int status) {
         String sql = "UPDATE [dbo].[Order] SET [OrderStatus] = ? WHERE [OrderID] = ?";
         try {
@@ -91,7 +92,7 @@ public class OrderDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
-
+// Cập nhật trạng thái đơn hàng của người dùng dựa trên OrderID và UserID
     public boolean updateStatusOrderUser(int xOrderID, int status, int xIdUser) {
         String sql = "UPDATE [dbo].[Order] SET [OrderStatus] = ? WHERE [OrderID] = ? AND [UserID] = ?";
         try {
@@ -108,7 +109,7 @@ public class OrderDAO extends DBContext {
             return false;
         }
     }
-
+// Lấy danh sách đơn hàng của người dùng dựa trên trạng thái và UserID
     public List<Order> getOrderUser(int xstatus, int userID) {
         List<Order> list = new ArrayList<>();
         String sql = " SELECT [OrderID]\n"
@@ -144,7 +145,7 @@ public class OrderDAO extends DBContext {
         }
         return list;
     }
-
+// Lấy danh sách đơn hàng dựa trên trạng thái
     public List<Order> getOrder(int xstatus) {
         List<Order> list = new ArrayList<>();
         String sql = "SELECT [OrderID]\n"

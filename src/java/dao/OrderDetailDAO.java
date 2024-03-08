@@ -16,7 +16,7 @@ import model.OrderDetail;
  * @author duykh
  */
 public class OrderDetailDAO extends DBContext {
-
+// Phương thức này lấy danh sách chi tiết đơn hàng dựa trên OrderID
     public List<OrderDetail> getOrderDetail(int xOrderID) {
         List<OrderDetail> list = new ArrayList<>();
         String sql = " SELECT OD.[OrderID],OD.[productID],\n"
@@ -38,6 +38,7 @@ public class OrderDetailDAO extends DBContext {
         }
         return list;
     }
+    // Phương thức này lấy danh sách chi tiết đơn hàng dựa trên OrderID và UserID
     public List<OrderDetail> getOrderDetailUser(int xOrderID, int xIdUser) {
         List<OrderDetail> list = new ArrayList<>();
         String sql = " SELECT OD.[OrderID],OD.[productID],\n"

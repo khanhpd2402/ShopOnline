@@ -15,7 +15,7 @@ import model.Coupon;
  * @author ADMIN
  */
 public class CouponDAO extends DBContext {
-
+//Lấy thông tin mã giảm giá dựa trên mã code.
     public Coupon getCouponByCode(String code) {
         Coupon coupon = null;
         String query = "SELECT * FROM Coupon WHERE code = ? AND expirationDate > GETDATE()";

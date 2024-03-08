@@ -180,7 +180,7 @@ public class CheckoutServlet extends HttpServlet {
                     long amountCoupon = (long) Double.parseDouble(amountCoupon_raw);
                     odao.insertOrder(u.getUserID(),phone, cart, paymentMethod, address, totalMoney, "", amountCoupon);
                     //neu nguoi dung khong add ma giam gia
-                }else if(totalMoney_raw != null && (amountCoupon_raw == null || amountCoupon_raw.length()  != 0)){
+                }else if(totalMoney_raw != null){
                     long totalMoney = (long) Double.parseDouble(totalMoney_raw);
                     odao.insertOrder(u.getUserID(),phone, cart, paymentMethod, address, totalMoney, "", 0);
                 }

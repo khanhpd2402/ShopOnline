@@ -22,7 +22,7 @@ public class ProductDAO extends DBContext {
 
     private PreparedStatement ps;
     private ResultSet rs;
-
+// Phương thức lấy danh sách 8 sản phẩm mới nhất
     public ArrayList<Product> getTop8Product() {
         ArrayList<Product> list = new ArrayList<>();
         try {
@@ -75,7 +75,7 @@ public class ProductDAO extends DBContext {
 
         return list;
     }
-
+// Phương thức này trả về danh sách tất cả sản phẩm theo mức giá và sắp xếp
     public List<Product> getAllProduct(int priceS) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT [ProductID]\n"
@@ -95,6 +95,7 @@ public class ProductDAO extends DBContext {
                 + "      ,[GraphicCard]\n"
                 + "      ,[Display]\n"
                 + "  FROM [dbo].[Product] where [ProductStatus] != 0";
+        // Xử lý sắp xếp theo giá
         switch (priceS) {
             case 1:
                 sql += " order by [SalePrice] DESC ";
@@ -135,7 +136,7 @@ public class ProductDAO extends DBContext {
 
         return list;
     }
-
+// Phương thức này trả về một sản phẩm theo ID
     public Product getProductByID(int productID) {
 
         String sql = "SELECT [ProductID]\n"
@@ -159,6 +160,7 @@ public class ProductDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, productID);
             ResultSet rs = st.executeQuery();
+            // Nếu có kết quả, tạo đối tượng Product và trả về
             if (rs.next()) {
                 try {
                     Product p = new Product(
@@ -187,13 +189,14 @@ public class ProductDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
-
+// Trả về null nếu không tìm thấy sản phẩm
         return null;
     }
 
-//search theo ten o trang shop
+// Phương thức này tìm kiếm sản phẩm theo tên và sắp xếp theo giá
     public List<Product> searchProductByName(String name, int priceS) {
         List<Product> list = new ArrayList<>();
+        // Câu lệnh SQL để tìm kiếm theo tên và sắp xếp
         String sql = "SELECT [ProductID]\n"
                 + "      ,[ProductName]\n"
                 + "      ,[Description]\n"
@@ -211,6 +214,7 @@ public class ProductDAO extends DBContext {
                 + "      ,[GraphicCard]\n"
                 + "      ,[Display]\n"
                 + "  FROM [dbo].[Product] where [ProductStatus] != 0 ";
+        // Xử lý tìm kiếm theo tên
         if (name != null && !name.trim().equals("")) {
             // Tạo một biến để lưu kết quả
             String newName = "";
@@ -240,6 +244,7 @@ public class ProductDAO extends DBContext {
             }
             sql += " AND productName like N'%" + newName.trim() + "%'";
         }
+        // Xử lý sắp xếp theo giá
         switch (priceS) {
             case 1:
                 sql += " order by [SalePrice] DESC ";
@@ -283,7 +288,7 @@ public class ProductDAO extends DBContext {
 
     }
 
-    //list theo category khi nguoi dung chon o trang index se chuyen huong den trang shop
+    //Phương thức này lấy danh sách sản phẩm dựa trên categoryID
     public List<Product> getProductByCategory(int categoryID) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT [ProductID]\n"
@@ -334,8 +339,8 @@ public class ProductDAO extends DBContext {
 
         return list;
     }
-//list san pham duoc filter
-
+    
+//lấy danh sách sản phẩm dựa trên filter
     public List<Product> getProductByFilter(List<Integer> categoryIDs, List<Integer> brandIDs, double minPrice, double maxPrice, int priceS) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT [ProductID]\n"
@@ -355,21 +360,23 @@ public class ProductDAO extends DBContext {
                 + "      ,[GraphicCard]\n"
                 + "      ,[Display]\n"
                 + "  FROM [dbo].[Product] WHERE ProductStatus != 0 ";
-
+// Xử lý điều kiện lọc theo categoryIDs
         if (!categoryIDs.isEmpty()) {
             String categoryIDString = getCategoryIDsAsString(categoryIDs);
             sql += " AND CategoryID IN (" + categoryIDString + ")";
         }
-
+// Xử lý điều kiện lọc theo brandIDs
         if (!brandIDs.isEmpty()) {
             String brandIDString = getBrandIDsAsString(brandIDs);
             sql += " AND BrandID IN (" + brandIDString + ")";
         }
+        // Xử lý điều kiện lọc theo minPrice
         sql += " AND SalePrice >= " + minPrice;
-
+// Xử lý điều kiện lọc theo maxPrice
         if (maxPrice != 0) {
             sql += " AND SalePrice <= " + maxPrice;
         }
+        // Xử lý điều kiện sắp xếp theo priceS
         switch (priceS) {
             case 1:
                 sql += " order by SalePrice DESC ";
@@ -434,7 +441,7 @@ public class ProductDAO extends DBContext {
         }
         return sb.toString();
     }
-
+// Phương thức chèn một đối tượng Product mới vào cơ sở dữ liệu
     public void insertProduct(Product p) {
         String sql = "INSERT INTO [dbo].[Product]\n"
                 + "           ([ProductName]\n"
@@ -461,7 +468,7 @@ public class ProductDAO extends DBContext {
             st.setString(1, p.getProductName());
             st.setString(2, p.getDescription());
             st.setDouble(3, p.getOriginPrice());
-            st.setDouble(4, p.getSalePrice()); // Assuming you have a method to calculate the sale price
+            st.setDouble(4, p.getSalePrice()); 
             st.setDouble(5, p.getDiscount());
             st.setString(6, p.getProductImg());
             st.setInt(7, p.getQuantity());
@@ -479,7 +486,7 @@ public class ProductDAO extends DBContext {
             System.out.println(e);
         }
     }
-
+// Phương thức cập nhật thông tin sản phẩm trong cơ sở dữ liệu
     public void updateProduct(Product p) {
         String sql = "UPDATE [dbo].[Product]\n"
                 + "   SET [ProductName] =?\n"
@@ -503,7 +510,7 @@ public class ProductDAO extends DBContext {
             st.setString(1, p.getProductName());
             st.setString(2, p.getDescription());
             st.setDouble(3, p.getOriginPrice());
-            st.setDouble(4, p.getSalePrice()); // Assuming you have a method to calculate the sale price
+            st.setDouble(4, p.getSalePrice()); 
             st.setDouble(5, p.getDiscount());
             st.setString(6, p.getProductImg());
             st.setInt(7, p.getQuantity());

@@ -174,7 +174,9 @@
                                                     <td id="TotalMoney"><fmt:formatNumber type = "currency" value="${(l.totalMoney)}"/></td>
                                                     <td id="Detail"><a href="orderdetail?orderID=${l.orderID}">Xem Chi Tiết</a></td>
                                                     <td id="Action">
+                                                        <c:if test="${l.orderStatus !=4}">
                                                         <a href="myorder?action=cancel&orderID=${l.orderID}&status=5" class="denied">Hủy</a>
+                                                        </c:if>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

@@ -60,19 +60,27 @@ public class OrderDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        // Lấy HttpSession từ request để kiểm tra xem người dùng đã đăng nhập hay chưa
         HttpSession session = request.getSession();
+        // Lấy thông tin người dùng từ session
         User u = (User) session.getAttribute("userinfo");
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa. Nếu người dùng đã đăng nhập, tiếp tục xử lý thông tin đơn hàng
         if (u != null) {
+            // Lấy giá trị orderID từ tham số request
             String orderID_raw = request.getParameter("orderID");
+            // Khởi tạo đối tượng OrderDetailDAO để thực hiện các thao tác với cơ sở dữ liệu liên quan đến chi tiết đơn hàng
             OrderDetailDAO odb = new OrderDetailDAO();
             try {
+                // parse giá trị orderID từ String sang Integer
                 int orderID = Integer.parseInt(orderID_raw);
+                // Gọi phương thức getOrderDetailUser từ OrderDetailDAO để lấy thông tin chi tiết đơn hàng theo orderID và userID
                 List<OrderDetail> list = odb.getOrderDetailUser(orderID, u.getUserID());
                 request.setAttribute("orderDetailList", list);
             } catch (NumberFormatException e) {
             }
             request.getRequestDispatcher("orderdetail.jsp").forward(request, response);
         } else {
+            // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập (login)
             response.sendRedirect("login");
         }
     } 

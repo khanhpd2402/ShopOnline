@@ -60,28 +60,16 @@ public class ProductDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String pathInfo = request.getPathInfo();
-//        if (pathInfo != null) {
-//            String[] pathParts = pathInfo.split("/");
-//            if (pathParts.length == 2) {
-//                String productID_raw = pathParts[1];
-//                try {
-//                    int productID = Integer.parseInt(productID_raw);
-//                    ProductDAO pdb = new ProductDAO();
-//                    Product p = pdb.getProductByID(productID);
-//                    List<Product> list = pdb.getProductByCategory(p.getCategoryID());
-//                    request.setAttribute("data", p);
-//                    request.setAttribute("datal", list);
-//                    request.getRequestDispatcher("productdetail.jsp").forward(request, response);
-//                } catch (NumberFormatException e) {
-//                }
-//            }
-//        }
+        // Lấy giá trị productID từ tham số request
         String productID_raw = request.getParameter("productID");
         try {
+            // parse giá trị productID từ String sang Integer
             int productID = Integer.parseInt(productID_raw);
+            // Khởi tạo đối tượng ProductDAO để thực hiện các thao tác với cơ sở dữ liệu
             ProductDAO pdb = new ProductDAO();
+            // Gọi phương thức getProductByID từ ProductDAO để lấy thông tin sản phẩm theo productID
             Product p = pdb.getProductByID(productID);
+            //danh sách sản phẩm cùng loại để hiển thị trong trang productdetail.jsp
             List<Product> list = pdb.getProductByCategory(p.getCategoryID());
             request.setAttribute("data", p);
             request.setAttribute("datal", list);
