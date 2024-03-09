@@ -69,11 +69,11 @@ public class ProductDetailServlet extends HttpServlet {
             ProductDAO pdb = new ProductDAO();
             // Gọi phương thức getProductByID từ ProductDAO để lấy thông tin sản phẩm theo productID
             Product p = pdb.getProductByID(productID);
-            //danh sách sản phẩm cùng loại để hiển thị trong trang productdetail.jsp
+            //danh sách sản phẩm cùng loại để hiển thị trong trang ProductDetail.jsp
             List<Product> list = pdb.getProductByCategory(p.getCategoryID());
             request.setAttribute("data", p);
             request.setAttribute("datal", list);
-            request.getRequestDispatcher("productdetail.jsp").forward(request, response);
+            request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
         } catch (NumberFormatException e) {
         }
     }

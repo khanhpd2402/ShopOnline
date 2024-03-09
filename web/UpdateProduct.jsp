@@ -85,7 +85,6 @@
                                         <div class="col-lg-6">
                                             <h4>Origin Price</h4>
                                             <textarea required name="OriginPrice" id="OriginPriceInput" oninput="formatNumber('OriginPriceInput')" class="content_inf" rows="2" cols="30" placeholder="Origin Price">${p.getOriginPriceLong()}</textarea>
-
                                     </div>
                                     <div class="col-lg-6">
                                         <h4>Sale Price</h4>
@@ -123,8 +122,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
                             <div class="col-lg-12">
                                 <h4> DESCRIBE</h4>
                                 <textarea name="describe" id="describe" class="content_inf" rows="5" cols="146  " placeholder="Describe">${p.description}</textarea>
@@ -160,40 +157,36 @@
                                 </script>
                             </div>
                         </div>
-
+                        <div class="button">
+                            <button class="button btn_cancel" type="reset"> Cancel</button>
+                            <input type="submit" class="button btn_save" value="Update" > 
+                        </div>
+                    </form>
                 </div>
-                <div class="button">
-                    <button class="button btn_cancel"> <a href="productmanage" style="text-decoration: none;">Cancel</a></button>
-                    <input type="submit" class="button btn_save" value="Update" > 
-                </div>
-                </form>
             </div>
-
-
         </div>
-    </div>
-    <script>
-        var tdElements = document.getElementsByName("priceproduct");
+        <script>
+            var tdElements = document.getElementsByName("priceproduct");
 
-        // Duyệt qua danh sách các thẻ <td> và thực hiện thao tác trên mỗi thẻ
-        for (var i = 0; i < tdElements.length; i++) {
-            var td = tdElements[i];
-            // Thực hiện các thao tác mong muốn trên mỗi thẻ <td> tại đây
-            // Ví dụ: định dạng giá tiền
-            var price = parseInt(td.innerHTML);
-            var formattedPrice = price.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            // Gán giá trị đã định dạng vào ô input
-            priceElement.innerHTML = formattedPrice;
-        }
-    </script>
-    <script src="jsadmin/jquery-1.11.1.min.js"></script>
-    <script src="jsadmin/bootstrap.min.js"></script>
-    <script src="jsadmin/chart.min.js"></script>
-    <script src="jsadmin/chart-data.js"></script>
-    <script src="jsadmin/easypiechart.js"></script>
-    <script src="jsadmin/easypiechart-data.js"></script>
-    <script src="jsadmin/bootstrap-datepicker.js"></script>
-    <script src="jsadmin/custom.js"></script>
-</body>
+            // Duyệt qua danh sách các thẻ <td> và thực hiện thao tác trên mỗi thẻ
+            for (var i = 0; i < tdElements.length; i++) {
+                var td = tdElements[i];
+                // Thực hiện các thao tác mong muốn trên mỗi thẻ <td> tại đây
+                // Ví dụ: định dạng giá tiền
+                var price = parseInt(td.innerHTML);
+                var formattedPrice = price.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                // Gán giá trị đã định dạng vào ô input
+                priceElement.innerHTML = formattedPrice;
+            }
+        </script>
+        <script src="jsadmin/jquery-1.11.1.min.js"></script>
+        <script src="jsadmin/bootstrap.min.js"></script>
+        <script src="jsadmin/chart.min.js"></script>
+        <script src="jsadmin/chart-data.js"></script>
+        <script src="jsadmin/easypiechart.js"></script>
+        <script src="jsadmin/easypiechart-data.js"></script>
+        <script src="jsadmin/bootstrap-datepicker.js"></script>
+        <script src="jsadmin/custom.js"></script>
+    </body>
 
 </html>

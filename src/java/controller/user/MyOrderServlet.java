@@ -104,7 +104,7 @@ public class MyOrderServlet extends HttpServlet {
 
         } catch (NumberFormatException e) {
         }
-        request.getRequestDispatcher("myorder.jsp").forward(request, response);
+        request.getRequestDispatcher("MyOrder.jsp").forward(request, response);
     }
 
     /**

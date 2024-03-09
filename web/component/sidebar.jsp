@@ -26,8 +26,10 @@
             <ul class="nav menu">
                 <li class="active"><a href="productmanage"><em class="fa-brands fa-product-hunt">&nbsp;</em> Product Manage</a></li>
                 <li><a href="manageorder?status=1"><em class="fa fa-truck">&nbsp;</em> Order Manage</a></li>
+                <li><a href="couponmanage"><em class="fa fa-ticket-alt">&nbsp;</em> Coupon Manage</a></li>
                 <li><a href="#"> <em class="fa fa-user-plus"></em> Add New Admin</a></li>
                 <li><a href="addproduct"> <em class="fa fa-plus"></em> Add New Product</a></li>
+                <li><a href="addcoupon"> <em class="fa fa-plus-circle"></em> Add New Coupon</a></li>
                 <li><a href="logout?logout=out"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
             </ul>
         </div><!--/.sidebar-->

@@ -66,7 +66,7 @@ public class AddContactServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("addcontact.jsp").forward(request, response);
+        request.getRequestDispatcher("AddContact.jsp").forward(request, response);
     }
 
     /**
@@ -110,7 +110,7 @@ public class AddContactServlet extends HttpServlet {
             // Nếu không có trùng lặp, thêm liên hệ mới vào cơ sở dữ liệu và chuyển hướng đến trang "allcontacts"
             response.sendRedirect("allcontacts");
         } else {
-            request.getRequestDispatcher("addcontact.jsp").forward(request, response);
+            request.getRequestDispatcher("AddContact.jsp").forward(request, response);
         }
     }
 

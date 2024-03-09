@@ -128,7 +128,7 @@ public class ManageOrderServlet extends HttpServlet {
         }
 
 
-        request.getRequestDispatcher("managerorder.jsp").forward(request, response);
+        request.getRequestDispatcher("ManagerOrder.jsp").forward(request, response);
     }
 
     /**

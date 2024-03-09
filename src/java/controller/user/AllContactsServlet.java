@@ -50,7 +50,7 @@ public class AllContactsServlet extends HttpServlet {
         UserContactDAO ucdb = new UserContactDAO();
         List<UserContact> userContacts = ucdb.getAllContactAnUser(us.getUserID());
         request.setAttribute("userContacts", userContacts);
-        request.getRequestDispatcher("allcontacts.jsp").forward(request, response);
+        request.getRequestDispatcher("AllContacts.jsp").forward(request, response);
     }
 
     /**
@@ -77,7 +77,7 @@ public class AllContactsServlet extends HttpServlet {
             udb.updateUserContactID_Favorite(Integer.parseInt(userContactID), u.getUserID());
             request.setAttribute("existModal", "existModal");
             session.removeAttribute("userinfo");
-            request.getRequestDispatcher("allcontacts.jsp").forward(request, response);
+            request.getRequestDispatcher("AllContacts.jsp").forward(request, response);
         } //chinh sua lien he
         else if (action.equals("edit")) {
             String email = request.getParameter("email").trim();
@@ -107,15 +107,19 @@ public class AllContactsServlet extends HttpServlet {
                     request.setAttribute("errorphone", "Số điện thoại đã được sử dụng!");
                     request.setAttribute("errorid", Integer.parseInt(userContactID));
                 }
-                //gui lai list contacts len page allcontacts.jsp
+                //gui lai list contacts len page AllContacts.jsp
                 request.setAttribute("userContacts", ucdb.getAllContactAnUser(u.getUserID()));
-                request.getRequestDispatcher("allcontacts.jsp").forward(request, response);
+                request.getRequestDispatcher("AllContacts.jsp").forward(request, response);
             } else {
                 //cap nhat thong tin lien he ng dung
                 UserContact ucUpdate = new UserContact(Integer.parseInt(userContactID), email, phone, address);
                 ucdb.updateUserContact(ucUpdate);
                 response.sendRedirect("allcontacts");
             }
+        }//xoa lien he
+        else if (action.equals("Delete")) {
+            ucdb.deleteUserContact(Integer.parseInt(userContactID));
+            response.sendRedirect("allcontacts");
         }
     }
 

@@ -72,7 +72,7 @@ public class InfoUserServlet extends HttpServlet {
         // lấy thông tin người dùng từ database
         User u = udb.getAnUser(us.getUsername());
         request.setAttribute("anuser", u);
-        request.getRequestDispatcher("infouser.jsp").forward(request, response);
+        request.getRequestDispatcher("InformationUser.jsp").forward(request, response);
     }
 
     /**
@@ -107,12 +107,12 @@ public class InfoUserServlet extends HttpServlet {
                     request.setAttribute("mess", "Đổi mật khẩu thành công, vui lòng đăng nhập lại!");
                     // Xóa thông tin người dùng khỏi session để yêu cầu đăng nhập lại
                     session.removeAttribute("userinfo");
-                    request.getRequestDispatcher("infouser.jsp").forward(request, response);
+                    request.getRequestDispatcher("InformationUser.jsp").forward(request, response);
                 } else {
                     // Nếu mật khẩu cũ không đúng, đặt thuộc tính "errorUpdatePass" để hiển thị thông báo lỗi
                     request.setAttribute("errorUpdatePass", "Mật Khẩu cũ không đúng!");
                     request.setAttribute("anuser", us);
-                    request.getRequestDispatcher("infouser.jsp").forward(request, response);
+                    request.getRequestDispatcher("InformationUser.jsp").forward(request, response);
                 }
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(InfoUserServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,7 +138,7 @@ public class InfoUserServlet extends HttpServlet {
                     request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
                 }
                 request.setAttribute("anuser", us);
-                request.getRequestDispatcher("infouser.jsp").forward(request, response);
+                request.getRequestDispatcher("InformationUser.jsp").forward(request, response);
             } else {
                 if (gender.equals("male")) {
                     User uNew = new User(us.getUserID(), uname, fname, lname, true);
@@ -156,7 +156,7 @@ public class InfoUserServlet extends HttpServlet {
                     request.setAttribute("existModal", "existModal");
                     request.setAttribute("mess", "Đổi thông tin cá nhân thành công, vui lòng đăng nhập lại!");
                 }
-                request.getRequestDispatcher("infouser.jsp").forward(request, response);
+                request.getRequestDispatcher("InformationUser.jsp").forward(request, response);
             }
         }
     }

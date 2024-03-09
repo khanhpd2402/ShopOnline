@@ -64,7 +64,7 @@ public class VerifyRegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("verifyregister.jsp").forward(request, response);
+        request.getRequestDispatcher("VerifyRegister.jsp").forward(request, response);
     }
 
     /**
@@ -104,7 +104,7 @@ public class VerifyRegisterServlet extends HttpServlet {
                 session.removeAttribute("insertuser");
                 request.setAttribute("title", "Đăng Kí Tài Khoản Thành Công!");
                 request.setAttribute("messRegister", "Chúc bạn có những trải nghiệm mua sắm tuyệt vời cùng Shop Online. Vui lòng đăng nhập để tiếp tục.");
-                request.getRequestDispatcher("notificationpage.jsp").forward(request, response);
+                request.getRequestDispatcher("NotifiCationpage.jsp").forward(request, response);
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(VerifyRegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -118,12 +118,12 @@ public class VerifyRegisterServlet extends HttpServlet {
                 session.removeAttribute("insertuser");//xoa thong tin dang ki cua user khoi session
                 session.removeAttribute("incorrectAttempt"); // Xóa số lần nhập sai khỏi session
                 request.setAttribute("title", "Đăng Kí Thất Bại!");
-                request.setAttribute("messRegister", "Rất tiếc, nhưng chúng tôi đã nhận thấy rằng bạn đã nhập sai mã xác nhận quá 5 lần hoặc mã xác nhận đã quá thời gian 5 phút. Vui lòng quay lại trang đăng ký để thử lại. Shop online thành thật xin lỗi vì sự bất tiện này!");
-                request.getRequestDispatcher("notificationpage.jsp").forward(request, response);
+                request.setAttribute("messRegister", "Rất tiếc, nhưng chúng tôi đã nhận thấy rằng bạn đã nhập sai mã xác nhận quá 5 lần hoặc mã xác nhận đã quá thời gian 5 phút. Vui lòng quay lại trang đăng nhập để thử lại. Shop online thành thật xin lỗi vì sự bất tiện này!");
+                request.getRequestDispatcher("NotifiCationpage.jsp").forward(request, response);
             } else {
                 // Chuyển hướng đến trang xác nhận lại mã với thông báo lỗi
                 request.setAttribute("error", "Mã xác nhận không hợp lệ");
-                request.getRequestDispatcher("verifyregister.jsp").forward(request, response);
+                request.getRequestDispatcher("VerifyRegister.jsp").forward(request, response);
             }
         }
     }

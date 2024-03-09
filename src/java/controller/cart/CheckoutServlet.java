@@ -101,7 +101,7 @@ public class CheckoutServlet extends HttpServlet {
             Cart cart = new Cart(txt, list);
             request.setAttribute("cart", cart);
             request.setAttribute("fullInfoUser", u);
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
         } else {
             response.sendRedirect("login");
         }
@@ -157,7 +157,7 @@ public class CheckoutServlet extends HttpServlet {
             } else {
                 request.setAttribute("coupon", coupon);
             }
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
 
         } else if (paymentMethod.equals("1")) {
             if (arr != null) {

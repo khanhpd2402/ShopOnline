@@ -150,7 +150,7 @@ public class ShopProductServlet extends HttpServlet {
         request.setAttribute("dataAllc", listAllc);
         List<Brand> listAllb = sdb.getAllBrandToSearch();
         request.setAttribute("dataAllb", listAllb);
-        request.getRequestDispatcher("shop.jsp").forward(request, response);
+        request.getRequestDispatcher("Shop.jsp").forward(request, response);
     }
 
     /**

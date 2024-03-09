@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.log;
+package controller.admin;
 
-import dao.UserDAO;
+import dao.CouponDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,17 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
+import model.Coupon;
 
 /**
  *
- * @author duykh
+ * @author khanh
  */
-@WebServlet(name = "ResetPassServlet", urlPatterns = {"/resetpass"})
-public class ResetPassServlet extends HttpServlet {
+@WebServlet(name = "CouponManageServlet", urlPatterns = {"/couponmanage"})
+public class CouponManageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +39,10 @@ public class ResetPassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ResetPassServlet</title>");
+            out.println("<title>Servlet CouponManageServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ResetPassServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CouponManageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,16 +60,11 @@ public class ResetPassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Kiểm tra trạng thái của session
-        HttpSession session = request.getSession();
-        String acp = (String) session.getAttribute("acp");
-
-        if (acp == null) {
-            response.sendRedirect("404.html");
-        } else {
-            session.removeAttribute("acp");
-            request.getRequestDispatcher("ResetPass.jsp").forward(request, response);
-        }
+        CouponDAO cdb = new CouponDAO();
+        //get all Coupon
+        List<Coupon> listAllCoupon = cdb.getAllCoupon();
+        request.setAttribute("dataAll", listAllCoupon);
+        request.getRequestDispatcher("ManageCoupon.jsp").forward(request, response);
     }
 
     /**
@@ -85,17 +78,7 @@ public class ResetPassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String pass = request.getParameter("pass");
-       HttpSession session = request.getSession();
-       String email = (String) session.getAttribute("email");
-        UserDAO udb = new UserDAO();
-        try {
-            udb.updatePass(email, pass);
-            session.removeAttribute("email");
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(ResetPassServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        response.sendRedirect("login");
+        processRequest(request, response);
     }
 
     /**

@@ -78,7 +78,7 @@ public class OrderDetailController extends HttpServlet {
             request.setAttribute("orderDetailList", list);
         } catch (NumberFormatException e) {
         }
-        request.getRequestDispatcher("orderdetail.jsp").forward(request, response);
+        request.getRequestDispatcher("OrderDetail.jsp").forward(request, response);
     }
 
     /**

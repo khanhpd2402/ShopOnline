@@ -83,36 +83,41 @@ public class RegisterServlet extends HttpServlet {
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String gender = request.getParameter("gender");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
+        String email = request.getParameter("email").trim();
+        String phone = request.getParameter("phone").trim();
         String address = request.getParameter("address");
         UserDAO udb = new UserDAO();
         UserContactDAO ucdb = new UserContactDAO();
 
         HttpSession session = request.getSession();
         User u = udb.getAnUser(username);
-        UserContact userContact =ucdb.getExistContact(email, phone);
-        if (u != null) {
-            if (u.getUsername().equals(username)) {
-                request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
+        UserContact userContact = ucdb.getExistContact(email, phone);
+        if (u != null || userContact != null) {
+            if (u != null) {
+                if (u.getUsername().equals(username)) {
+                    request.setAttribute("errorusername", "Tên đăng nhập đã tồn tại!");
+                }
             }
-            if (userContact.getEmail().equals(email)) {
-                request.setAttribute("erroremail", "Email đã được sử dụng!");
+            if (userContact != null) {
+                if (userContact.getEmail().equals(email)) {
+                    request.setAttribute("erroremail", "Email đã được sử dụng!");
+                }
+                if (userContact.getPhone().equals(phone)) {
+                    request.setAttribute("errorphone", " Số điện thoại đã được sử dụng!");
+                }
             }
-            if (userContact.getPhone().equals(phone)) {
-                request.setAttribute("errorphone", " Số điện thoại đã được sử dụng!");
-            }
+
             request.getRequestDispatcher("Register.jsp").forward(request, response);
         } else {
             if (gender.equals("male")) {
                 User uNew = new User(username, password, firstname, lastname, true, email, phone, address, 1);
                 session.setAttribute("insertuser", uNew);
                 String verificationCode = sendMail.generateVerificationCode();
-                
+
                 // Lưu mã xác nhận vào session
                 session.setAttribute("verification", verificationCode);
                 session.setMaxInactiveInterval(300);
-                
+
                 // Gửi email chứa mã xác nhận đến người dùng
                 sendMail.sendConfirmationEmail(email, verificationCode);
                 response.sendRedirect("verifyregister");
@@ -121,11 +126,11 @@ public class RegisterServlet extends HttpServlet {
                 User uNew = new User(username, password, firstname, lastname, false, email, phone, address, 1);
                 session.setAttribute("insertuser", uNew);
                 String verificationCode = sendMail.generateVerificationCode();
-                
+
                 // Lưu mã xác nhận vào session
                 session.setAttribute("verification", verificationCode);
                 session.setMaxInactiveInterval(300);
-                
+
                 // Gửi email chứa mã xác nhận đến người dùng
                 sendMail.sendConfirmationEmail(email, verificationCode);
                 response.sendRedirect("verifyregister");

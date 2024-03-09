@@ -75,7 +75,7 @@ public class AddProductController extends HttpServlet {
         request.setAttribute("datac", listAllc);
         List<Brand> listAllb = sdb.getAllBrandToSearch();
         request.setAttribute("datab", listAllb);
-        request.getRequestDispatcher("addnewprod.jsp").forward(request, response);
+        request.getRequestDispatcher("AddProduct.jsp").forward(request, response);
     }
 
     /**

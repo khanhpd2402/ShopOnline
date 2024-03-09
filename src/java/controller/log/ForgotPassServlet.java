@@ -62,7 +62,7 @@ public class ForgotPassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("forgotpass.jsp").forward(request, response);
+        request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
     }
 
     /**
@@ -97,7 +97,7 @@ public class ForgotPassServlet extends HttpServlet {
             response.sendRedirect("verifyfogotpass");
         } else {
             request.setAttribute("notfound", "Tìm kiếm không trả về kết quả nào. Vui lòng thử lại với thông tin khác.");
-            request.getRequestDispatcher("forgotpass.jsp").forward(request, response);
+            request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
         }
 
         // Chuyển hướng người dùng đến trang xác nhận

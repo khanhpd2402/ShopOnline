@@ -39,11 +39,8 @@ public class UserContactDAO extends DBContext {
     public static void main(String[] args) {
         UserContactDAO userDAO = new UserContactDAO();
 
-        List< UserContact> u = userDAO.getAllContactAnUser(0);
-        for (UserContact userContact : u) {
-            System.out.println(userContact.getEmail());
-
-        }
+        UserContact u = userDAO.getExistContact("", "0966328802");
+        System.out.println(u.getEmail()+"-"+u.getPhone());
     }
 // Phương thức lấy tất cả thông tin liên lạc của một người dùng dựa trên UserID
 
@@ -139,7 +136,7 @@ public class UserContactDAO extends DBContext {
         }
         return null;
     }
-    
+
 // Phương thức cập nhật thông tin lien he người dùng
     public void updateUserContact(UserContact u) {
         // Truy vấn SQL cập nhật thông tin người dùng trong bảng UserContact dựa trên UserContactID
@@ -155,6 +152,20 @@ public class UserContactDAO extends DBContext {
             st.setString(2, u.getPhone());
             st.setString(3, u.getAddress());
             st.setInt(4, u.getUserContactID());
+            st.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+// Phương thức XÓA 1 thông tin lien he người dùng
+
+    public void deleteUserContact(int xUserContactID) {
+        // Truy vấn SQL xóa thông tin người dùng trong bảng UserContact dựa trên UserContactID
+        String sql = "DELETE FROM [dbo].[UserContact]\n"
+                + "       WHERE [UserContactID] = ?";
+        try {
+            // Chuẩn bị và thực hiện truy vấn SQL với  tham số là thông tin id
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, xUserContactID);
             st.executeUpdate();
         } catch (SQLException e) {
         }

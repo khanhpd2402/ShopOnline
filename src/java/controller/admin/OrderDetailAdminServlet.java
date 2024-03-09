@@ -68,7 +68,7 @@ public class OrderDetailAdminServlet extends HttpServlet {
                    request.setAttribute("orderDetailList", list);
         } catch (NumberFormatException e) {
         }
-        request.getRequestDispatcher("orderdetailmanage.jsp").forward(request, response);
+        request.getRequestDispatcher("ManageOrderDetail.jsp").forward(request, response);
     }
 
     /**

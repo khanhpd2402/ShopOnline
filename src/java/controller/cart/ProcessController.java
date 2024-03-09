@@ -110,10 +110,9 @@ public class ProcessController extends HttpServlet {
             response.addCookie(c);
             //xoa dau / cua returnUrl_raw (/productdetail --> productdetail)
             String returnUrl = returnUrl_raw.replaceFirst("/", "");
-
-            //neu returnUrl_raw co dang productdetail.jsp thi xoa .jsp
+            //neu returnUrl_raw co dang .jsp thi xoa .jsp
             if (returnUrl.contains(".jsp")) {
-                String url = returnUrl.replaceAll(".jsp", "");
+                String url = returnUrl.replaceAll(".jsp", "").toLowerCase();
                 if (url.contains("productdetail")) {
                     //tra ve tranng productdetail theo id
                     response.sendRedirect(url + "?productID=" + id);

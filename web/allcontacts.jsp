@@ -92,7 +92,9 @@
             .button-container2 button:nth-child(2) {
                 background-color: #28a745; /* Đặt liên hệ mặc định */
             }
-
+            .button-container2  button:nth-child(3) {
+                background-color: #c7254e; /* xóa */
+            }
             .button-container  button:nth-child(1) {
                 background-color: #007bff; /* Xác nhận */
                 display: none;
@@ -124,7 +126,21 @@
                 margin: 15% auto;
                 padding: 20px;
                 border: 1px solid #888;
-                width: 80%;
+                width: 30%;
+            }
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                width: 3px;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
             }
         </style>
     </head>
@@ -162,12 +178,14 @@
                             <div class="button-container2">
                                 <button type="button" id="editButton${o.userContactID}" onclick="handleEditButtonClick('${o.userContactID}')"><i class="fas fa-edit"></i> Chỉnh sửa</button>
                                 <button type="submit" id="setDefaultButton${o.userContactID}"><i class="fas fa-archway"></i> Đặt liên hệ mặc định</button>
+                                <button type="button" id="openDeleteModalBtn" onclick="openDeleteModal('${o.userContactID}')"><i class="fas fa-trash"></i>Xóa liên hệ</button>
                             </div>
                         </form>
                     </c:if>
                 </div>
             </c:forEach>
         </div>
+        <!--modal thông báo Đổi liên hệ mặc định thành công--> 
         <span id="${existModal}"></span>
         <div id="myModal" class="modal">
             <div class="modal-content">
@@ -175,7 +193,20 @@
                 <a href="logout">Đăng nhập</a>
             </div>
         </div>
-
+        <!--modal cảnh báo khi người dùng muốn xóa-->
+        <div id="modalDelete" class="modal">
+            <div class="modal-content">
+                <span id="close" class="close">&times;</span>
+                <form name="fd" action="allcontacts" method="post">
+                            <input type="text" name="userContactID" id="userContactIDDelette" hidden="" >
+                            <input type="text" id="action" name="action" value="Delete" hidden="" >
+                            <p>Bạn có chắc chắn muốn xóa liên hệ này?</p>
+                            <div class="button-container2">
+                                <button type="submit" id="deleteButton" style="background-color: #ffc107; "><i class="fas fa-check"></i> Xác Nhận</button>
+                            </div>
+                        </form>
+            </div>
+        </div>
         <%@include file="model/footer.jsp" %>
 
         <script>
@@ -205,6 +236,30 @@
                 document.getElementById('email' + id).readOnly = true;
                 document.getElementById('phone' + id).readOnly = true;
                 document.getElementById('address' + id).readOnly = true;
+            }
+            function openDeleteModal(id) {
+                var modal = document.getElementById("modalDelete");
+// Get the <span> element that closes the modal
+                var span = document.getElementById("close");
+                // When the user clicks the button, open the modal 
+                modal.style.display = "block";
+                // Gán giá trị userContactID cho thuộc tính value
+                document.getElementById("userContactIDDelette").value = id;
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    closeModal();
+                };
+
+// When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        closeModal();
+                    }
+                };
+                // Function to close the modal
+                function closeModal() {
+                    modal.style.display = "none";
+                }
             }
         </script>
         <!--js modal-->

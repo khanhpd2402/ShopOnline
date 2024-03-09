@@ -61,7 +61,7 @@ public class VerifyFogotPassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("verifyforgot.jsp").forward(request, response);
+        request.getRequestDispatcher("VerifyForgotPassword.jsp").forward(request, response);
     }
 
     /**
@@ -104,11 +104,13 @@ public class VerifyFogotPassServlet extends HttpServlet {
                 session.removeAttribute("incorrectAttempts"); // Xóa số lần nhập sai khỏi session
 
                 // Chuyển hướng đến trang thông báo với thông báo lỗi
-                response.sendRedirect("forgotpass");
+                request.setAttribute("title", "Xác nhận Thất Bại!");
+                request.setAttribute("messRegister", "Rất tiếc, nhưng chúng tôi đã nhận thấy rằng bạn đã nhập sai mã xác nhận quá 5 lần hoặc mã xác nhận đã quá thời gian 5 phút. Vui lòng quay lại trang đăng nhập để thử lại. Shop online thành thật xin lỗi vì sự bất tiện này!");
+                request.getRequestDispatcher("NotifiCationpage.jsp").forward(request, response);
             } else {
                 // Chuyển hướng đến trang xác nhận lại mã với thông báo lỗi
                 request.setAttribute("error", "Mã xác nhận không hợp lệ");
-                request.getRequestDispatcher("verifyforgot.jsp").forward(request, response);
+                request.getRequestDispatcher("VerifyForgotPassword.jsp").forward(request, response);
             }
         }
     }

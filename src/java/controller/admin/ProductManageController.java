@@ -83,7 +83,7 @@ public class ProductManageController extends HttpServlet {
             request.setAttribute("dataProductByCategory", listProductByCategory);
             request.setAttribute("dataCategoryName", cateforyName);
         }
-        request.getRequestDispatcher("ProductManager.jsp").forward(request, response);
+        request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
     }
 
     /**
@@ -109,7 +109,7 @@ public class ProductManageController extends HttpServlet {
             request.setAttribute("notfound", "The product you requested could not be found!");
         }
         request.setAttribute("listSearch", listSearch);
-        request.getRequestDispatcher("ProductManager.jsp").forward(request, response);
+        request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
     }
 
     /**
